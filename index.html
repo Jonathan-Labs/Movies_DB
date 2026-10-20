@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BidoMeter</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BidoMeter">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--ink:#efefef;--mute:#9b9b9b;--hot:#b036ad;--glow:rgba(176,54,173,.55);--red:#ff6b81}
@@ -128,11 +137,16 @@ img.zm{cursor:zoom-in}
 .lbx{top:14px;right:14px}
 .lbp{top:50%;transform:translateY(-50%)}
 .lbp.l{left:12px}.lbp.r{right:12px}
+.aw .awn{margin:0 0 6px}
+.aw .vm{margin:6px 0 0}
+header h1{display:flex;align-items:center;gap:10px}
+.logo{width:32px;height:32px;flex:none;color:var(--hot)}
 </style>
 </head>
 <body>
 <header>
-  <h1>BidoMeter</h1>
+  <h1><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><mask id="pm"><rect width="64" height="64" fill="#fff"/><path d="M25 33L26.8 58M39 33L37.2 58" stroke="#000" stroke-width="2.6"/></mask>
+<g fill="currentColor"><circle cx="16" cy="24" r="6.5"/><circle cx="23" cy="16" r="7.5"/><circle cx="34" cy="11" r="8"/><circle cx="44" cy="16" r="7.5"/><circle cx="48" cy="25" r="6.5"/><circle cx="32" cy="24" r="8.5"/><path mask="url(#pm)" d="M11 33h42l-5.5 25h-31z"/></g></svg>BidoMeter</h1>
   <form id="sf"><input id="q" placeholder="Search a movie or series to add…" aria-label="Search movies and series"><button class="sbtn" aria-label="Search" title="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
   <nav id="nav"></nav>
 </header>
@@ -187,6 +201,10 @@ async function tmdb(path){
   const r=await fetch('https://api.themoviedb.org/3'+path+(path.includes('?')?'&':'?')+'api_key='+cfg.tmdb);
   if(!r.ok)throw new Error('TMDB error '+r.status+'. Check your API key.');
   return r.json();
+}
+async function omdbData(id){
+  if(!cfg.omdb||!id)return null;
+  try{return await(await fetch(`https://www.omdbapi.com/?i=${id}&apikey=${cfg.omdb}`)).json()}catch{return null}
 }
 async function imdbRating(id){
   if(!cfg.omdb||!id)return null;
@@ -338,7 +356,9 @@ async function openMovie(id){
     director:tv?(d.created_by||[]).map(c=>c.name).join(', '):(d.credits?.crew||[]).filter(c=>c.job==='Director').map(c=>c.name).join(', '),
     cast:(cr?.cast||[]).slice(0,12).map(c=>({id:c.id,name:c.name,character:c.character||c.roles?.[0]?.character||'',photo:c.profile_path?IMG+'w185'+c.profile_path:''})),
     imdb_rating:saved?.imdb_rating||null,ratings:saved?.ratings||{}};
-  if(!m.imdb_rating)m.imdb_rating=await imdbRating(imdbId);
+  const om=await omdbData(imdbId);
+  if(!m.imdb_rating&&om?.imdbRating&&om.imdbRating!=='N/A')m.imdb_rating=om.imdbRating;
+  let awH='Loading…';
   const r={...m.ratings};
   const paint=()=>{
     const watched=saved&&isW(saved);
@@ -348,7 +368,8 @@ async function openMovie(id){
       ${m.tmdb_rating?`<span class="badge">TMDB <span class="score">${m.tmdb_rating}</span></span>`:''}
       ${m.director?`<span class="badge">${tv?'Created by':'Dir.'} ${esc(m.director)}</span>`:''}
       ${imdbId?`<a class="badge" style="color:var(--hot)" target="_blank" rel="noopener" href="https://www.imdb.com/title/${imdbId}/">View on IMDb</a>`:''}</div>
-      <p class="clip">${esc(m.overview)}</p><button class="vm">View more</button></div></div>
+      <p class="clip">${esc(m.overview)}</p><button class="vm">View more</button>
+      <div class="facts"><p id="maw"><span class="k">Awards</span><span class="v">${awH}</span></p></div></div></div>
     ${shots.length?`<div class="strip wide">${shots.map(f=>`<img class="zm" loading="lazy" src="${IMG}w780${f}" data-full="${IMG}w1280${f}" alt="">`).join('')}</div>`:''}<h3>Cast</h3><div class="cast">${m.cast.map(a=>`<button data-a="${a.id}">${a.photo?`<img src="${a.photo}" alt="">`:'<div class="ph"></div>'}<span class="nm">${esc(a.name)}</span></button>`).join('')}</div>
     <div class="rate"><h3 style="margin-top:0">${watched?'Your ratings':'Rate it to mark it as watched'}</h3>
     ${CATS.map(([k,l])=>`<div class="row"><span>${l}</span><span class="stars">${[1,2,3,4,5].map(n=>`<button data-k="${k}" data-n="${n}" aria-label="${n} stars" class="${(r[k]||0)>=n?'f':''}">★</button>`).join('')}</span></div>`).join('')}
@@ -363,9 +384,26 @@ async function openMovie(id){
     $('#rm')&&($('#rm').onclick=async()=>{await dbDel(id);closeM()});
   };
   paint();
+  movieTok=id;
+  Promise.all([om?.Awards&&om.Awards!=='N/A'?om.Awards:'',d.external_ids?.wikidata_id?wd(d.external_ids.wikidata_id).catch(()=>null):null]).then(([note,wk])=>{
+    awH=awardsHTML(wk?.awards||[],note);
+    if(movieTok===id&&$('#maw .v'))$('#maw .v').innerHTML=awH;
+  });
 }
 
-let actorTok=0;
+let actorTok=0,movieTok=0;
+function awardsHTML(names,note){
+  if(!names.length&&!note)return'None listed';
+  const rest=names.slice(3);
+  const bd=(x,h)=>`<span class="badge"${h?' data-x hidden':''}>${esc(x)}</span>`;
+  return`<div class="aw">${note?`<p class="awn">${esc(note)}</p>`:''}${names.length?`<div class="badges" style="margin:0">${names.slice(0,3).map(x=>bd(x)).join('')}${rest.map(x=>bd(x,1)).join('')}</div>`:''}${rest.length?`<button class="vm" data-showall="${names.length}">Show all (${names.length})</button>`:''}</div>`;
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-showall]');if(!b)return;
+  const on=b.dataset.on!=='1';b.dataset.on=on?'1':'0';
+  b.closest('.aw').querySelectorAll('[data-x]').forEach(x=>x.hidden=!on);
+  b.textContent=on?'Show less':`Show all (${b.dataset.showall})`;
+});
 /* TMDB has no awards or residence, so these come from Wikidata (via the actor's wikidata id) */
 async function wd(qid){
   const u=x=>'https://www.wikidata.org/w/api.php?format=json&origin=*&'+x;
@@ -373,9 +411,11 @@ async function wd(qid){
   const ids=c=>(c||[]).filter(x=>x.mainsnak?.datavalue?.value?.id);
   const aw=ids(cl.P166).map(x=>x.mainsnak.datavalue.value.id);
   const rs=ids(cl.P551).filter(x=>!x.qualifiers?.P582).map(x=>x.mainsnak.datavalue.value.id);
-  const need=[...new Set([...rs.slice(-1),...aw])].slice(0,50);
+  const need=[...new Set([...rs.slice(-1),...aw])];
   if(!need.length)return{awards:[],total:0,home:''};
-  const L=(await(await fetch(u('action=wbgetentities&props=labels&languages=en&ids='+need.join('|')))).json()).entities;
+  const chunks=[];for(let i=0;i<need.length&&i<250;i+=50)chunks.push(need.slice(i,i+50));
+  const parts=await Promise.all(chunks.map(c=>fetch(u('action=wbgetentities&props=labels&languages=en&ids='+c.join('|'))).then(r=>r.json())));
+  const L=Object.assign({},...parts.map(x=>x.entities||{}));
   const lab=id=>L[id]?.labels?.en?.value||'';
   const pri=x=>/Academy|Oscar|Golden Globe|BAFTA|Emmy|Tony|Screen Actors|Cannes|Venice|Berlin|Grammy|César/i.test(x)?0:1;
   const names=[...new Set(aw.map(lab).filter(Boolean))].sort((x,y)=>pri(x)-pri(y));
@@ -415,8 +455,7 @@ async function openActor(pid){
   wd(qid).then(r=>{
     if(actorTok!==pid)return;
     if(r.home&&$('#lv')){$('#lv').hidden=false;$('#lv .v').textContent=r.home}
-    const top=r.awards.slice(0,8),more=r.total-top.length;
-    setAw(top.length?`<div class="badges" style="margin:0">${top.map(x=>`<span class="badge">${esc(x)}</span>`).join('')}${more>0?`<span class="badge">+${more} more</span>`:''}</div>`:'None listed');
+    setAw(awardsHTML(r.awards));
   }).catch(()=>setAw('Could not load awards'));
 }
 
