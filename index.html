@@ -98,9 +98,6 @@ select{display:block;width:100%;margin-top:4px;background:var(--card);border:1px
 .slide .txt{text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .cast img,.lb img{object-fit:cover;object-position:center top;flex:none}
 .lb .ph{flex:none}
-.st{position:relative;display:inline-block;margin-right:3px;color:#4a4a4a}
-.st::before{content:'★'}
-.st i{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;font-style:normal;color:var(--hot)}
 .cast button{display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
 .nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.25;min-height:2.5em;width:100%}
 nav button{padding:8px 10px}
@@ -262,6 +259,12 @@ button.lrow:hover{background:var(--card)}
 .wform label{display:block;margin:10px 0 4px}
 .wform code{color:var(--hot)}
 .wform .acts{margin-top:10px}
+.wi.wstar.on{color:var(--hot)}
+.hsec{margin-top:26px}
+@media(min-width:900px){
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+  .duo .hero{height:520px}
+}
 </style>
 </head>
 <body>
@@ -376,7 +379,7 @@ function heroGo(key,n){
 function heroBox(key,title,n,fn){
   const h=H[key]=H[key]||{i:0,t:0};h.i%=n;
   const range=Array.from({length:n},(_,i)=>i);
-  return`<h2 class="hh">${title}</h2><div class="hero" id="h_${key}">${range.map(i=>fn(i,i===h.i?' on':'')).join('')}<button class="arrow l" aria-label="Previous">‹</button><button class="arrow r" aria-label="Next">›</button><div class="dots">${range.map(i=>`<button aria-label="Show slide ${i+1}" class="${i===h.i?'on':''}"></button>`).join('')}</div></div>`;
+  return`<section class="hsec"><h2 class="hh">${title}</h2><div class="hero" id="h_${key}">${range.map(i=>fn(i,i===h.i?' on':'')).join('')}<button class="arrow l" aria-label="Previous">‹</button><button class="arrow r" aria-label="Next">›</button><div class="dots">${range.map(i=>`<button aria-label="Show slide ${i+1}" class="${i===h.i?'on':''}"></button>`).join('')}</div></div></section>`;
 }
 function heroWire(key,n,ms){
   const box=$('#h_'+key),h=H[key];
@@ -392,7 +395,7 @@ function dash(){
   const top=a=>a.filter(m=>num(avgOf(m))).sort((x,y)=>num(avgOf(y))-num(avgOf(x))||num(y.imdb_rating)-num(x.imdb_rating)).slice(0,6);
   const tm=top(lib.filter(m=>m.id>0)),ts=top(lib.filter(m=>m.id<0));
   const ac={};lib.forEach(m=>(m.cast||[]).forEach(a=>{const o=ac[a.id]??={id:a.id,name:a.name,photo:a.photo,n:0,films:[]};o.n++;o.films.push(m.title)}));
-  const acts=Object.values(ac).sort((x,y)=>y.n-x.n||x.name.localeCompare(y.name)).slice(0,10);
+  const acts=Object.values(ac).filter(a=>a.photo).sort((x,y)=>y.n-x.n||x.name.localeCompare(y.name)).slice(0,10);
   const stat=(v,l)=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`;
   const SP='M12 1.7l3.1 6.6 7.2.9-5.3 5 1.4 7.2L12 17.8l-6.4 3.6L7 14.2 1.7 9.2l7.2-.9z';
   const star=(n,u)=>[0,1,2,3,4].map(i=>{const f=Math.round(Math.max(0,Math.min(1,n-i))*100);return `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="g${u}_${i}"><stop offset="${f}%" style="stop-color:var(--hot)"/><stop offset="${f}%" style="stop-color:#4a4a4a"/></linearGradient></defs><path d="${SP}" fill="url(#g${u}_${i})"/></svg>`}).join('');
@@ -403,8 +406,7 @@ function dash(){
     <button class="btn" data-m="${m.id}">View details</button></div></div>`};
   const atop=acts.length?`<h2 class="hh">Top Watched Actors</h2><div class="atop">${acts.map(a=>`<button class="at" data-a="${a.id}">${a.photo?`<img loading="lazy" src="${a.photo.replace('/w185/','/h632/')}" alt="">`:'<div class="ph"></div>'}<b>${esc(a.name)}</b><small>${a.n} title${a.n===1?'':'s'}</small></button>`).join('')}</div>`:'';
   el.innerHTML=`<div class="stats">${stat(lib.length,'Titles watched')}${stat(lib.filter(m=>m.id>0).length,'Movies')}${stat(lib.filter(m=>m.id<0).length,'Series')}</div>`
-    +(tm.length?heroBox('m','Top Rated Movies',tm.length,titleSlide('m',tm)):'')
-    +(ts.length?heroBox('s','Top Rated Series',ts.length,titleSlide('s',ts)):'')
+    +((tm.length||ts.length)?`<div class="duo">${tm.length?heroBox('m','Top Rated Movies',tm.length,titleSlide('m',tm)):''}${ts.length?heroBox('s','Top Rated Series',ts.length,titleSlide('s',ts)):''}</div>`:'')
     +atop
     +`<h3>Recently Added</h3><div class="grid">${lib.slice(0,6).map(card).join('')}</div>`;
   [['m',tm],['s',ts]].forEach(([k,l],j)=>{if(l.length)heroWire(k,l.length,5000+j*700)});
@@ -462,6 +464,19 @@ function normS(r,t){
   if(mt==='movie'||mt==='tv')return{...norm({...r,media_type:mt}),st:1};
   return null;
 }
+const fold=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const inLib=id=>lib.some(x=>x.id===id);
+/* titles from your library whose name contains the search text (shown first on page 1) */
+function pinned(q,type){
+  const f=fold(q).trim();if(!f||type==='person')return[];
+  const rank=t=>{t=fold(t);return t===f?0:t.startsWith(f)?1:2};
+  return lib.filter(m=>fold(m.title).includes(f)&&(type==='multi'||(type==='movie')===(m.id>0)))
+    .sort((a,b)=>rank(a.title)-rank(b.title)||a.title.localeCompare(b.title)).map(m=>({...m,st:1}));
+}
+function prioritize(items,pin){
+  const ids=new Set(pin.map(m=>m.id)),rest=items.filter(m=>!ids.has(m.id)),w=m=>!m.person&&inLib(m.id);
+  return[...pin,...rest.filter(w),...rest.filter(m=>!w(m))];
+}
 async function runSearch(){
   const tok=SQ.tok=(SQ.tok||0)+1;
   view='search';nav();$('#main').innerHTML='<p class="empty">Searching…</p>';
@@ -469,7 +484,9 @@ async function runSearch(){
     if(SQ.type==='keyword')await runKeyword();
     else{
       const d=await tmdb(`/search/${SQ.type}?query=${encodeURIComponent(SQ.q)}&page=${SQ.page}`);
-      SQ.data={items:d.results.map(r=>normS(r,SQ.type)).filter(Boolean),pages:Math.min(d.total_pages||1,500),total:d.total_results||0};
+      const pin=pinned(SQ.q,SQ.type),pids=new Set(pin.map(m=>m.id)),raw=d.results.map(r=>normS(r,SQ.type)).filter(Boolean);
+      const items=SQ.page===1?prioritize(raw,pin):prioritize(raw.filter(m=>!pids.has(m.id)),[]);   // pinned titles are shown on page 1 only
+      SQ.data={items,pages:Math.min(d.total_pages||1,500),total:d.total_results||0};
     }
   }catch(err){$('#main').innerHTML=`<div class="msg">${esc(err.message)}</div>`;return}
   render();
@@ -490,7 +507,7 @@ async function runKeyword(){
   const q=`with_keywords=${ids.join('|')}&sort_by=popularity.desc&page=${SQ.page}`;
   const [m,t]=await Promise.all([tmdb('/discover/movie?'+q),tmdb('/discover/tv?'+q)]);
   const items=[...m.results.map(r=>({r,t:'movie'})),...t.results.map(r=>({r,t:'tv'}))].sort((a,b)=>(b.r.popularity||0)-(a.r.popularity||0)).map(x=>normS(x.r,x.t)).filter(Boolean);
-  SQ.data={items,pages:Math.min(Math.max(m.total_pages||1,t.total_pages||1),500),total:(m.total_results||0)+(t.total_results||0),kw:{label,ids,matches:SQ.matches||[]}};
+  SQ.data={items:prioritize(items,[]),pages:Math.min(Math.max(m.total_pages||1,t.total_pages||1),500),total:(m.total_results||0)+(t.total_results||0),kw:{label,ids,matches:SQ.matches||[]}};
 }
 /* suggestions: keywords that the titles on this page are tagged with */
 async function loadRelated(tok){
@@ -796,7 +813,7 @@ function render(){
   }else if(view==='board'){
     const map={};
     lib.forEach(m=>(m.cast||[]).forEach(a=>{(map[a.id]??={...a,n:0,films:[]}).n++;map[a.id].films.push(m.title)}));
-    const rows=Object.values(map).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
+    const rows=Object.values(map).filter(a=>a.photo).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
     const per=20,pages=Math.max(1,Math.ceil(rows.length/per));pgBoard=Math.min(pgBoard,pages);const start=(pgBoard-1)*per;PG=n=>{pgBoard=n;render()};
     el.innerHTML=`<h2>Most-watched actors (${rows.length})</h2>`+(rows.length?`<ul class="lb">${rows.slice(start,start+per).map((a,i)=>`<li data-a="${a.id}"><span class="rk">${start+i+1}</span>${a.photo?`<img src="${a.photo}" alt="">`:'<div class="ph"></div>'}<div>${esc(a.name)}<br><small style="color:var(--mute)">${esc(a.films.slice(0,3).join(', '))}${a.films.length>3?'…':''}</small></div><b>${a.n}</b></li>`).join('')}</ul>${pager(pgBoard,pages)}`:'<p class="empty">Log a movie or series and its cast will show up here.</p>');
   }
@@ -844,7 +861,14 @@ $('#modal').onclick=e=>{if(e.target.id==='modal')closeM()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.hidden)closeM()});
 
 /* ---------- Watch Now: your own list of sites ---------- */
-let sitesSb=false;   // true when the Supabase "sites" table is reachable
+let sitesSb=false,STARCOL=true;   // sitesSb: Supabase "sites" table reachable; STARCOL: it has the "starred" column
+async function sbPostSites(arr){
+  const map=x=>STARCOL?{id:x.id,name:x.name,url:x.url,starred:!!x.starred}:{id:x.id,name:x.name,url:x.url};
+  const go=()=>fetch(cfg.sbUrl+'/rest/v1/sites',{method:'POST',headers:{...sbH(),Prefer:'resolution=merge-duplicates'},body:JSON.stringify(arr.map(map))});
+  let r=await go();
+  if(!r.ok&&r.status===400&&STARCOL){STARCOL=false;r=await go()}   // column not added yet: keep going without it
+  return r;
+}
 async function sitesLoad(){
   const local=load('sites')||[];
   if(!sbOn()){SITES=local;return}
@@ -852,16 +876,24 @@ async function sitesLoad(){
     const r=await fetch(cfg.sbUrl+'/rest/v1/sites?select=*&order=created_at.asc',{headers:sbH()});
     if(!r.ok)throw new Error(r.status);
     const rows=await r.json();sitesSb=true;
+    if(rows.length)STARCOL='starred' in rows[0];
     if(!rows.length&&local.length){   // first time: copy the sites saved in this browser up to Supabase
-      await fetch(cfg.sbUrl+'/rest/v1/sites',{method:'POST',headers:{...sbH(),Prefer:'resolution=merge-duplicates'},body:JSON.stringify(local.map(({id,name,url})=>({id,name,url})))});
-      SITES=local;
-    }else SITES=rows.map(({id,name,url})=>({id,name,url}));
+      await sbPostSites(local);SITES=local;
+    }else{
+      const lm=Object.fromEntries(local.map(x=>[x.id,!!x.starred]));
+      SITES=rows.map(x=>({id:x.id,name:x.name,url:x.url,starred:STARCOL?!!x.starred:!!lm[x.id]}));
+    }
     save('sites',SITES);
   }catch{SITES=local;sitesSb=false}
 }
+async function sitesPutMany(arr){
+  if(!sitesSb)return;
+  const r=await sbPostSites(arr);
+  if(!r.ok)throw new Error(`Could not save to Supabase (${r.status}).`);
+}
 async function sitesPut(x){
   if(!sitesSb)return;
-  const r=await fetch(cfg.sbUrl+'/rest/v1/sites',{method:'POST',headers:{...sbH(),Prefer:'resolution=merge-duplicates'},body:JSON.stringify({id:x.id,name:x.name,url:x.url})});
+  const r=await sbPostSites([x]);
   if(!r.ok)throw new Error(`Could not save to Supabase (${r.status}).`);
 }
 async function sitesDel(id){
@@ -881,7 +913,8 @@ function siteLink(s,m){
 }
 const WSV='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 function wnBody(m){
-  const rows=SITES.map(s=>`<div class="wrow"><a class="wl" href="${esc(siteLink(s,m))}" target="_blank" rel="noopener noreferrer"><b>${esc(s.name)}</b><small>${esc(hostOf(s.url))}${hasTpl(s.url)?'':' · searched through Google'}</small></a>
+  const rows=[...SITES].sort((a,b)=>(b.starred?1:0)-(a.starred?1:0)).map(s=>`<div class="wrow${s.starred?' pref':''}"><a class="wl" href="${esc(siteLink(s,m))}" target="_blank" rel="noopener noreferrer"><b>${esc(s.name)}</b><small>${esc(hostOf(s.url))}${hasTpl(s.url)?'':' · searched through Google'}</small></a>
+    <button class="wi wstar${s.starred?' on':''}" data-ws="star:${s.id}" aria-pressed="${!!s.starred}" aria-label="${s.starred?'Remove preferred mark from':'Mark as preferred:'} ${esc(s.name)}" title="${s.starred?'Preferred (tap to unmark)':'Mark as preferred'}"><svg viewBox="0 0 24 24" fill="${s.starred?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></button>
     <button class="wi" data-ws="edit:${s.id}" aria-label="Edit ${esc(s.name)}" title="Edit"><svg ${WSV}><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>
     <button class="wi" data-ws="del:${s.id}" aria-label="Delete ${esc(s.name)}" title="Delete"><svg ${WSV}><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>`).join('');
   const cur=WF&&WF.id?SITES.find(x=>x.id===WF.id)||{}:{};
@@ -890,7 +923,7 @@ function wnBody(m){
     <p class="meta">To search automatically, search any word on the site, copy the address of the results page, and replace that word with <code>{query}</code>. If you paste just the site address, it is searched through Google instead. Also available: <code>{year}</code>, <code>{slug}</code>, <code>{imdb}</code>.</p>
     <div class="acts"><button class="btn" data-ws="save:">Save</button><button class="btn ghost" data-ws="cancel:">Cancel</button></div><p class="meta" id="wn-err"></p></div>`
     :'<button class="btn ghost" data-ws="add:">+ Add site</button>';
-  return `${WP}${rows||(WF?'':'<p class="meta">No sites yet. Add the sites you use and they will open already searching for this title.</p>')}${form}${sbOn()&&!sitesSb?'<p class="meta">These sites are saved on this device only. Create the sites table in Supabase to sync them.</p>':''}`;
+  return `${WP}${rows||(WF?'':'<p class="meta">No sites yet. Add the sites you use and they will open already searching for this title.</p>')}${form}${sbOn()&&!sitesSb?'<p class="meta">These sites are saved on this device only. Create the sites table in Supabase to sync them.</p>':(sitesSb&&!STARCOL?'<p class="meta">Stars are saved on this device only. Add the starred column in Supabase to sync them.</p>':'')}`;
 }
 document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-ws]');if(!b)return;
@@ -900,6 +933,12 @@ document.addEventListener('click',async e=>{
     if(a==='add')WF={id:null};
     else if(a==='edit')WF={id};
     else if(a==='cancel')WF=null;
+    else if(a==='star'){
+      const s=SITES.find(x=>x.id===id);if(!s)return;
+      const site={...s,starred:!s.starred};   // each link is starred on its own
+      await sitesPut(site);
+      SITES=SITES.map(x=>x.id===id?site:x);save('sites',SITES);
+    }
     else if(a==='del'){
       const s=SITES.find(x=>x.id===id);if(!s||!confirm(`Delete “${s.name}”?`))return;
       await sitesDel(id);SITES=SITES.filter(x=>x.id!==id);save('sites',SITES);
@@ -1014,7 +1053,7 @@ async function openActor(pid){
   let p,c;
   try{[p,c]=await Promise.all([tmdb(`/person/${pid}?append_to_response=external_ids,images`),tmdb(`/person/${pid}/combined_credits`)])}
   catch(err){open(`<div class="msg">${esc(err.message)}</div>`);return}
-  const seen=new Set(),films=(c.cast||[]).filter(f=>(f.media_type==='movie'||f.media_type==='tv')&&!/self|himself|herself/i.test(f.character||'')&&!(f.genre_ids||[]).some(g=>[10767,10763,10764].includes(g))).map(norm).filter(f=>f.release_date&&!seen.has(f.id)&&seen.add(f.id)).sort((a,b)=>b.release_date.localeCompare(a.release_date));
+  const seen=new Set(),films=(c.cast||[]).filter(f=>(f.media_type==='movie'||f.media_type==='tv')&&!/self|himself|herself/i.test(f.character||'')&&!(f.genre_ids||[]).some(g=>[10767,10763,10764].includes(g))).map(norm).filter(f=>f.release_date&&!seen.has(f.id)&&seen.add(f.id)).sort((a,b)=>b.release_date.localeCompare(a.release_date)).sort((a,b)=>inLib(b.id)-inLib(a.id));
   const n=films.filter(f=>lib.some(x=>x.id===f.id)).length;
   const D=d=>new Date(d+'T00:00:00');
   const fmt=d=>D(d).toLocaleDateString('en',{year:'numeric',month:'long',day:'numeric'});
