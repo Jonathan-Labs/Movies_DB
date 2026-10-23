@@ -294,6 +294,15 @@ nav{flex-wrap:wrap}
 .amc{position:relative;width:100%;max-width:380px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:22px 20px 20px}
 .amc .chips{margin:4px 44px 6px 0}
 .amc .aform{margin-top:6px}
+@media(min-width:561px){header form{flex:0 1 360px}header nav{margin-left:auto}}
+/* frosted-glass pop-ups: film, actor and log-in windows */
+#modal{background:rgba(6,6,10,.5)}
+.sheet{background:rgba(22,22,28,.58);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+#authm{background:rgba(6,6,10,.5)}
+.amc{background:rgba(22,22,28,.58);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.sheet .rate,.sheet .wbody,.sheet .kwd,.sheet .msg{background:rgba(255,255,255,.07)}
+.sheet .x,.amc .x{background:rgba(255,255,255,.1)}
+.sheet input,.amc input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14)}
 </style>
 </head>
 <body>
@@ -923,12 +932,11 @@ document.addEventListener('click',e=>{
 });
 
 async function publicView(){
-  const el=$('#main'),T=[['movie','Movies'],['tv','Series'],['person','Actors']];
+  const el=$('#main'),T=[['movie','Movies'],['tv','Series']];
   const kinds=PB.type==='person'?[['popular','Popular']]:[['trending','Trending'],['popular','Popular'],['top','Top rated']];
   if(!kinds.some(k=>k[0]===PB.kind))PB.kind=kinds[0][0];
   const sv='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
-  el.innerHTML=`<h2>Public Dashboard</h2><p class="meta">Browse movies, series and actors. Open any title to see where you can watch it.</p>
-   <div class="chips tabs">${T.map(([k,l])=>`<button class="chip${PB.type===k?' on':''}" data-au="pbt:${k}" aria-label="${l}" title="${l}"><svg ${sv}>${TI[k]}</svg></button>`).join('')}</div>
+  el.innerHTML=`<div class="chips tabs">${T.map(([k,l])=>`<button class="chip${PB.type===k?' on':''}" data-au="pbt:${k}" aria-label="${l}" title="${l}"><svg ${sv}>${TI[k]}</svg></button>`).join('')}</div>
    <div class="chips">${kinds.map(([k,l])=>`<button class="chip${PB.kind===k?' on':''}" data-au="pbk:${k}">${l}</button>`).join('')}</div>
    <div id="pbres"><p class="empty">Loading…</p></div>`;
   const path=PB.type==='person'?`/person/popular?page=${PB.page}`:PB.kind==='trending'?`/trending/${PB.type}/week?page=${PB.page}`:`/${PB.type}/${PB.kind==='top'?'top_rated':'popular'}?page=${PB.page}`;
