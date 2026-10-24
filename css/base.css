@@ -1,0 +1,13 @@
+/* Design tokens, reset, typography and bare form elements */
+:root{color-scheme:dark;--bg:#0a0a0a;--card:#151515;--line:#2b2b2b;--ink:#efefef;--mute:#9b9b9b;--hot:#b036ad;--glow:rgba(176,54,173,.55);--red:#ff6b81}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 'Instrument Sans',system-ui,sans-serif;min-height:100vh}
+h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.15}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+input{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+label{display:block;margin:12px 0 4px;color:var(--mute);font-size:.9rem}
+h2{margin:0 0 14px}h3{margin:20px 0 6px}
+select{display:block;width:100%;margin-top:4px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 10px;color:var(--ink);font:inherit}
+[hidden]{display:none!important}

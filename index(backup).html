@@ -23,7 +23,7 @@ button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--hot);outline-offset:2px}
 header{position:sticky;top:0;z-index:5;background:rgba(10,10,10,.55);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid rgba(255,255,255,.08);padding:12px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-header h1{font-size:1.3rem;flex:1 1 100%}
+header h1{font-size:1.3rem;flex:1 1 auto;min-width:0}
 header form{flex:1 1 240px;display:flex;gap:6px}
 input{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
 .btn{background:var(--hot);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600}
@@ -32,7 +32,7 @@ input{background:var(--card);border:1px solid var(--line);border-radius:8px;padd
 nav{display:flex;gap:4px}
 nav button{background:none;border:0;padding:8px 12px;border-radius:8px;color:var(--mute);font-weight:600}
 nav button.on{background:var(--card);color:var(--hot)}
-main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+main{max-width:none;margin:0;padding:20px 16px 60px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
 .poster{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:left;padding:0;display:block;width:100%}
 .poster img,.ph{width:100%;aspect-ratio:2/3;object-fit:cover;display:grid;place-items:center;background:var(--card);color:var(--mute)}
@@ -265,13 +265,64 @@ button.lrow:hover{background:var(--card)}
   .duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
   .duo .hero{height:520px}
 }
+.dot{position:absolute;top:1px;right:1px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--hot);color:#fff;font-size:.65rem;display:grid;place-items:center}
+nav button{position:relative}
+.uav{flex:none;display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(176,54,173,.5),rgba(176,54,173,.15));border:1px solid rgba(176,54,173,.5);color:#fff;font-weight:700}
+.uav.lg{width:72px;height:72px;font-size:1.8rem;margin:0 auto 10px}
+.ul{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:14px}
+.urow{display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);text-align:left}
+.urow:last-child{border-bottom:0}
+.urow:hover{background:var(--card)}
+.urow .un{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.urow .go{color:var(--mute);font-size:1.3rem}
+.arow{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.arow:last-child{border-bottom:0}
+.arow .un{flex:1;min-width:120px;font-weight:600}
+.arow .un small{display:block;color:var(--mute);font-weight:400}
+.abt{display:flex;gap:8px;flex-wrap:wrap}
+.acc{text-align:center;padding:24px 0}
+.acc .msg{text-align:left;max-width:460px;margin:12px auto}
+.aform{max-width:380px;margin-top:14px}
+.aform label{display:block;margin:12px 0 4px}
+.aform .btn{margin-top:14px}
+.lst .arow .btn{padding:8px 14px}
+nav{flex-wrap:wrap}
+@media(max-width:560px){nav{flex:1 1 100%;gap:0;justify-content:space-between}nav button{padding:8px 6px}}
+@media(max-width:380px){nav button{padding:8px 3px}}
+@media(max-width:560px){header.few form{flex:1 1 120px;min-width:0}header.few nav{flex:0 0 auto;gap:2px}header.few nav button{padding:8px 10px}}
+#authm{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:16px;overflow:auto}
+.amc{position:relative;width:100%;max-width:380px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:22px 20px 20px}
+.amc .chips{margin:4px 44px 6px 0}
+.amc .aform{margin-top:6px}
+@media(min-width:561px){header form{flex:0 1 360px}header nav{margin-left:auto}}
+/* frosted-glass pop-ups: film, actor and log-in windows */
+#modal{background:rgba(6,6,10,.5)}
+.sheet{background:rgba(22,22,28,.58);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+#authm{background:rgba(6,6,10,.5)}
+.amc{background:rgba(22,22,28,.58);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.sheet .rate,.sheet .wbody,.sheet .kwd,.sheet .msg{background:rgba(255,255,255,.07)}
+.sheet .x,.amc .x{background:rgba(255,255,255,.1)}
+.sheet input,.amc input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14)}
+.htop{flex:1 1 100%;display:flex;align-items:center;gap:10px;min-width:0}
+header h1 .brand{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#hacct{display:flex;align-items:center;gap:8px;flex:none}
+.hu{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:3px 14px 3px 4px;color:var(--ink);font-weight:600}
+.hu .uav{width:28px;height:28px;font-size:.85rem}
+.hu .hn{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb{display:inline-flex;align-items:center;gap:8px;padding:8px 14px}
+.hb svg{width:18px;height:18px}
+@media(max-width:480px){.hb .lt{display:none}header.in .hb{padding:8px 10px}.hu .hn{max-width:96px}}
+@media(max-width:430px){header.in .brand{display:none}}
+.accf{max-width:420px;margin:20px auto 0;text-align:left}
+.accf .aform{max-width:none;margin:0;padding:0 14px 14px}
+.msg.ok{border-left-color:#3ecf8e}
 </style>
 </head>
 <body>
 <header>
-  <h1><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><mask id="pm"><rect width="64" height="64" fill="#fff"/><path d="M25 33L26.8 58M39 33L37.2 58" stroke="#000" stroke-width="2.6"/></mask>
-<g fill="currentColor"><circle cx="16" cy="24" r="6.5"/><circle cx="23" cy="16" r="7.5"/><circle cx="34" cy="11" r="8"/><circle cx="44" cy="16" r="7.5"/><circle cx="48" cy="25" r="6.5"/><circle cx="32" cy="24" r="8.5"/><path mask="url(#pm)" d="M11 33h42l-5.5 25h-31z"/></g></svg>BidoMeter</h1>
-  <form id="sf"><input id="q" placeholder="Search a movie or series to add…" aria-label="Search movies and series"><button class="sbtn" aria-label="Search" title="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
+  <div class="htop"><h1><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><mask id="pm"><rect width="64" height="64" fill="#fff"/><path d="M25 33L26.8 58M39 33L37.2 58" stroke="#000" stroke-width="2.6"/></mask>
+<g fill="currentColor"><circle cx="16" cy="24" r="6.5"/><circle cx="23" cy="16" r="7.5"/><circle cx="34" cy="11" r="8"/><circle cx="44" cy="16" r="7.5"/><circle cx="48" cy="25" r="6.5"/><circle cx="32" cy="24" r="8.5"/><path mask="url(#pm)" d="M11 33h42l-5.5 25h-31z"/></g></svg><span class="brand">BidoMeter</span></h1><div id="hacct"></div></div>
+  <form id="sf"><input id="q" placeholder="Search movies, series, actors…" aria-label="Search movies, series and actors"><button class="sbtn" aria-label="Search" title="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
   <nav id="nav"></nav>
 </header>
 <main id="main"></main>
@@ -300,22 +351,103 @@ const norm=r=>({id:r.media_type==='tv'?-r.id:r.id,title:r.title||r.name,release_
 const CATS=[['story','Story'],['prod','Quality'],['perf','Performance'],['like','BidoMeter']];
 
 const sbOn=()=>cfg.sbUrl&&cfg.sbKey;
-const sbH=()=>({apikey:cfg.sbKey,...(cfg.sbKey.startsWith('eyJ')?{Authorization:'Bearer '+cfg.sbKey}:{}),'Content-Type':'application/json'});
+/* ---------- accounts: guests, users (approved by the admin) and the admin ---------- */
+let SESS=load('sess'),PROF=null,PENDING=0,RP=null;
+/* Usernames become username@AUTH_DOMAIN inside Supabase Auth. No email is ever sent (keep "Confirm email" OFF in Supabase).
+   Supabase only accepts domains that can receive mail (they need MX records), so a made-up domain is rejected.
+   Use a domain you own if you have one. Do not change it once people have created accounts, or they will not be able to log in. */
+const AUTH_DOMAIN='gmail.com';
+const authEmail=u=>`${u.toLowerCase()}@${AUTH_DOMAIN}`;
+const authPass=(u,pin)=>`${pin}-${u.toLowerCase()}-bidometer`;
+const qzKey=()=>'quiz_'+(SESS?.user?.id||'x');
+const role=()=>PROF?(PROF.approved?PROF.role:'pending'):'guest';
+const canUse=()=>{const r=role();return r==='user'||r==='admin'};
+const isAdmin=()=>role()==='admin';
+const sbH=()=>{
+  const tok=SESS?.access_token;
+  return{apikey:cfg.sbKey,...(tok?{Authorization:'Bearer '+tok}:(cfg.sbKey.startsWith('eyJ')?{Authorization:'Bearer '+cfg.sbKey}:{})),'Content-Type':'application/json'};
+};
+function setSess(d){
+  SESS={access_token:d.access_token,refresh_token:d.refresh_token,expires_at:d.expires_at||Math.floor(Date.now()/1000)+(d.expires_in||3600),user:{id:d.user.id,email:d.user.email}};
+  save('sess',SESS);
+}
+function clearSess(){SESS=null;PROF=null;try{localStorage.removeItem('sess')}catch{}}
+async function authCall(path,body){
+  const r=await fetch(cfg.sbUrl+'/auth/v1'+path,{method:'POST',headers:{apikey:cfg.sbKey,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(d.msg||d.error_description||d.message||`Request failed (${r.status})`);
+  return d;
+}
+function refreshSess(){
+  if(RP)return RP;
+  RP=(async()=>{
+    if(!SESS?.refresh_token)return false;
+    try{setSess(await authCall('/token?grant_type=refresh_token',{refresh_token:SESS.refresh_token}));return true}
+    catch{clearSess();return false}
+  })().finally(()=>{RP=null});
+  return RP;
+}
+async function sbf(path,o={}){
+  const go=()=>fetch(cfg.sbUrl+path,{method:o.method||'GET',headers:{...sbH(),...(o.headers||{})},body:o.body});
+  let r=await go();
+  if(r.status===401&&SESS&&await refreshSess())r=await go();
+  return r;
+}
+async function loadProfile(){
+  PROF=null;if(!SESS)return;
+  try{const r=await sbf(`/rest/v1/profiles?id=eq.${SESS.user.id}&select=*`);if(r.ok)PROF=(await r.json())[0]||null}catch{}
+}
+async function doSignUp(u,pin){
+  let d;
+  try{d=await authCall('/signup',{email:authEmail(u),password:authPass(u,pin),data:{username:u.toLowerCase()}})}
+  catch(e){throw new Error(/already|registered|exists|database error/i.test(e.message)?'That username is taken.':/rate limit/i.test(e.message)?'Supabase is trying to send a confirmation email. The admin needs to turn off “Confirm email” in Supabase (Authentication → Sign In / Providers → Email) and then try again.':e.message)}
+  if(!d.access_token)throw new Error('The account was created, but Supabase still wants email confirmation. Turn off “Confirm email” in Authentication → Sign In / Providers → Email, then ask the admin to remove this account and try again.');
+  setSess(d);
+}
+/* The login address is fixed when an account is created, so a member can change the username shown on the site
+   without touching the sign-in itself. This looks up the address that belongs to a username. */
+async function loginEmail(u){
+  try{
+    const r=await fetch(cfg.sbUrl+'/rest/v1/rpc/auth_email_for',{method:'POST',headers:{apikey:cfg.sbKey,'Content-Type':'application/json'},body:JSON.stringify({u})});
+    if(r.ok)return await r.json();   // null = unknown username
+  }catch{}
+  return authEmail(u);               // the SQL for renaming is not installed yet: usernames still match their login address
+}
+async function myEmail(){
+  if(SESS?.user?.email)return SESS.user.email;
+  const r=await fetch(cfg.sbUrl+'/auth/v1/user',{headers:sbH()});const d=await r.json().catch(()=>({}));
+  if(!d.email)throw new Error('Could not read your account.');
+  SESS.user.email=d.email;save('sess',SESS);return d.email;
+}
+async function doSignIn(u,pin){
+  try{
+    const email=await loginEmail(u);
+    if(!email)throw new Error('Invalid login credentials');
+    setSess(await authCall('/token?grant_type=password',{email,password:authPass(email.split('@')[0],pin)}));
+  }
+  catch(e){throw new Error(/invalid login|credentials/i.test(e.message)?'Wrong username or PIN.':/not confirmed/i.test(e.message)?'This account was never activated. Ask the admin to remove it so you can create it again.':e.message)}
+}
+async function doSignOut(){
+  try{await fetch(cfg.sbUrl+'/auth/v1/logout',{method:'POST',headers:sbH()})}catch{}
+  clearSess();USERS=null;VU=null;VIEWU=null;await afterAuth('public');
+}
+
+/* ---------- your library (one row per user and title) ---------- */
 async function dbAll(){
-  if(!sbOn())return load('lib')||[];
-  const r=await fetch(cfg.sbUrl+'/rest/v1/movies?select=*&order=created_at.desc',{headers:sbH()});
+  if(!SESS)return[];
+  const r=await sbf(`/rest/v1/movies?select=*&user_id=eq.${SESS.user.id}&order=created_at.desc`);
   if(!r.ok)throw new Error('Supabase: '+r.status);
   return r.json();
 }
 async function dbSave(m){
-  if(!sbOn()){all=all.filter(x=>x.id!==m.id);all.unshift(m);save('lib',all);split();return}
-  const r=await fetch(cfg.sbUrl+'/rest/v1/movies',{method:'POST',headers:{...sbH(),Prefer:'resolution=merge-duplicates'},body:JSON.stringify(m)});
+  if(!canUse())throw new Error('Your account has not been approved yet.');
+  const r=await sbf('/rest/v1/movies?on_conflict=user_id,id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates'},body:JSON.stringify({...m,user_id:SESS.user.id})});
   if(!r.ok)throw new Error('Supabase: '+r.status);
   all=await dbAll();split();
 }
 async function dbDel(id){
-  if(!sbOn()){all=all.filter(x=>x.id!==id);save('lib',all);split();return}
-  await fetch(cfg.sbUrl+'/rest/v1/movies?id=eq.'+id,{method:'DELETE',headers:sbH()});
+  const r=await sbf(`/rest/v1/movies?id=eq.${id}&user_id=eq.${SESS.user.id}`,{method:'DELETE'});
+  if(!r.ok)throw new Error('Supabase: '+r.status);
   all=await dbAll();split();
 }
 
@@ -337,21 +469,36 @@ async function imdbRating(id){
 
 /* ---------- views ---------- */
 const IC={
+ public:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.8 0 4.5 2 4.5 5"/>',
+ admin:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+ account:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+ login:'<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>',
  dashboard:'<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',
  library:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4M3 12h18M3 16h4M17 8h4M17 16h4"/>',
  watch:'<path d="M6 3h12v18l-6-4-6 4z"/>',
  quiz:'<rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10v5M4.5 12.5h5"/><circle cx="16" cy="11.5" r=".8"/><circle cx="18.5" cy="13.5" r=".8"/>',
  stats:'<path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-9"/>',
  board:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'};
-function nav(){
-  $('#nav').innerHTML=[['dashboard','Dashboard'],['library','Library'],['watch','To Watch'],['board','Leaderboard'],['stats','Statistics'],['quiz','Quiz']]
-   .map(([k,l])=>`<button class="${view===k?'on':''}" data-v="${k}" aria-label="${l}" title="${l}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[k]}</svg></button>`).join('');
+function tabs(){
+  const t=[['public','Public']];
+  if(canUse())t.push(['dashboard','Dashboard'],['library','Library'],['watch','To Watch'],['board','Leaderboard'],['stats','Statistics'],['quiz','Quiz'],['users','Users']);
+  if(isAdmin())t.push(['admin','Admin']);
+  return t;
 }
-$('#nav').onclick=e=>{const b=e.target.closest('[data-v]');if(b){view=b.dataset.v;render();window.scrollTo(0,0)}};
+function nav(){
+  const sv='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  const hd=document.querySelector('header');hd.classList.toggle('few',tabs().length<=3);hd.classList.toggle('in',!!PROF);
+  $('#hacct').innerHTML=PROF
+    ?`<button class="hu" data-hv title="Your account">${avatar(PROF.username)}<span class="hn">@${esc(PROF.username)}</span></button><button class="btn ghost hb" data-hout aria-label="Log out" title="Log out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="lt">Log out</span></button>`
+    :'<button class="btn hb" data-login>Log in</button>';
+  $('#nav').innerHTML=tabs().map(([k,l])=>`<button class="${view===k||(k==='users'&&view==='ulib')?'on':''}" data-v="${k}" aria-label="${l}" title="${l}"><svg ${sv}>${IC[k==='account'&&!PROF?'login':k]}</svg>${k==='admin'&&PENDING?`<span class="dot">${PENDING}</span>`:''}</button>`).join('');
+}
+$('#nav').onclick=e=>{const b=e.target.closest('[data-v]');if(b){if(b.dataset.v==='account'&&!PROF){openAuth('in');return}view=b.dataset.v;render();window.scrollTo(0,0)}};
 $('#sf').onsubmit=e=>{e.preventDefault();const q=$('#q').value.trim();if(!q)return;SQ={q,type:'multi',page:1,data:null};window.scrollTo(0,0);runSearch()};
 function card(m){
   if(m.person)return `<button class="poster" data-a="${m.id}">${m.photo?`<img loading="lazy" src="${m.photo}" alt="">`:'<div class="ph">No photo</div>'}<div>${esc(m.title)}<small>${m.dept==='Acting'?'Actor':esc(m.dept)}</small></div></button>`;
-  const w=all.find(x=>x.id===m.id);
+  const w=(CSRC||all).find(x=>x.id===m.id);
   const yr=(m.year||(m.release_date||'').slice(0,4)||'');
   const poster=m.poster||(m.poster_path?IMG+'w342'+m.poster_path:'');
   const avg=w?(CRS==='imdb'?(w.imdb_rating?'IMDb '+w.imdb_rating:null):CRS==='tmdb'?(w.tmdb_rating?'TMDB '+w.tmdb_rating:null):(avgOf(w)?'★ '+avgOf(w):null)):null;
@@ -415,12 +562,13 @@ const rtxt=w=>CRS==='imdb'?(w.imdb_rating?'IMDb '+w.imdb_rating:null):CRS==='tmd
 function listHTML(items){
   return`<div class="lst"><div class="lrow lh"><span>Title</span><span>Year</span><span>Type</span><span style="text-align:right">Rating</span></div>${items.map(m=>`<button class="lrow" data-m="${m.id}"><span class="lt">${esc(m.title)}</span><span class="ly">${esc(m.year||'')}</span><span class="lk">${m.id<0?'Series':'Movie'}</span><span class="lr score">${rtxt(m)||'–'}</span></button>`).join('')}</div>`;
 }
-function library(){
+function library(src){
+  const L=src||lib;
   const el=$('#main');
-  const gs=[...new Set(lib.flatMap(m=>(m.genres||'').split(', ').filter(Boolean)))].sort();
+  const gs=[...new Set(L.flatMap(m=>(m.genres||'').split(', ').filter(Boolean)))].sort();
   const sel=(k,opts)=>`<select data-f="${k}">${opts.map(([v,l])=>`<option value="${esc(v)}"${String(F[k])===String(v)?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
-  const yrs=[...new Set(lib.map(m=>m.year).filter(Boolean))].sort().reverse();
-  el.innerHTML=`<h2>Watched <span id="cnt"></span></h2><div class="lbar"><button class="btn ghost ftb" id="ft" aria-expanded="${fOpen}" aria-controls="fp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>Filters <span class="fb" id="fb" hidden>0</span></button><div class="vt"><button data-vw="grid" class="${LV==='grid'?'on':''}" aria-label="Picture view" title="Picture view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button data-vw="list" class="${LV==='list'?'on':''}" aria-label="List view" title="List view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button></div></div><div class="filters" id="fp"${fOpen?'':' hidden'}>
+  const yrs=[...new Set(L.map(m=>m.year).filter(Boolean))].sort().reverse();
+  el.innerHTML=`<h2>${src?`<button class="bk" data-au="back:">‹ Users</button> ${esc('@'+VU.name)}’s library`:'Watched'} <span id="cnt"></span></h2><div class="lbar"><button class="btn ghost ftb" id="ft" aria-expanded="${fOpen}" aria-controls="fp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>Filters <span class="fb" id="fb" hidden>0</span></button><div class="vt"><button data-vw="grid" class="${LV==='grid'?'on':''}" aria-label="Picture view" title="Picture view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button data-vw="list" class="${LV==='list'?'on':''}" aria-label="List view" title="List view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button></div></div><div class="filters" id="fp"${fOpen?'':' hidden'}>
    <label>Type${sel('type',[['all','All'],['movie','Movies'],['tv','Series']])}</label>
    <label>Genre${sel('genre',[['all','All genres'],...gs.map(g=>[g,g])])}</label>
    <label>Release year${sel('year',[['all','All years'],...yrs.map(y=>[y,y])])}</label>
@@ -434,22 +582,22 @@ function library(){
   const by={recent:()=>0,az:(a,b)=>a.title.localeCompare(b.title),za:(a,b)=>b.title.localeCompare(a.title),
     new:(a,b)=>num(b.year)-num(a.year),old:(a,b)=>num(a.year)-num(b.year),};
   const paint=()=>{
-    const l=lib.filter(m=>(F.type==='all'||(F.type==='tv')===(m.id<0))&&(F.genre==='all'||(m.genres||'').split(', ').includes(F.genre))
+    const l=L.filter(m=>(F.type==='all'||(F.type==='tv')===(m.id<0))&&(F.genre==='all'||(m.genres||'').split(', ').includes(F.genre))
       &&(F.year==='all'||m.year===F.year)).sort((a,b)=>(F.rating==='none'?0:rv(b)-rv(a))||by[F.sort](a,b));
-    $('#cnt').textContent=`(${l.length}${l.length!==lib.length?' of '+lib.length:''})`;
+    $('#cnt').textContent=`(${l.length}${l.length!==L.length?' of '+L.length:''})`;
     const per=LV==='list'?50:24,pages=Math.max(1,Math.ceil(l.length/per));libPage=Math.min(libPage,pages);PG=n=>{libPage=n;paint()};
     const nf=Object.keys(F0).filter(k=>F[k]!==F0[k]).length;$('#fb').textContent=nf;$('#fb').hidden=!nf;
-    CRS=F.rating==='none'?'mine':F.rating;
-    $('#res').innerHTML=l.length?`${LV==='list'?listHTML(l.slice((libPage-1)*per,libPage*per)):`<div class="grid">${l.slice((libPage-1)*per,libPage*per).map(card).join('')}</div>`}${pager(libPage,pages)}`:`<p class="empty">${lib.length?'No titles match these filters.':'Nothing here yet. Search for a movie or series above to log your first one.'}</p>`;
-    CRS='mine';
+    CRS=F.rating==='none'?'mine':F.rating;CSRC=src||null;
+    $('#res').innerHTML=l.length?`${LV==='list'?listHTML(l.slice((libPage-1)*per,libPage*per)):`<div class="grid">${l.slice((libPage-1)*per,libPage*per).map(card).join('')}</div>`}${pager(libPage,pages)}`:`<p class="empty">${L.length?'No titles match these filters.':(src?'This library is empty.':'Nothing here yet. Search for a movie or series above to log your first one.')}</p>`;
+    CRS='mine';CSRC=null;
   };
   $('.filters').oninput=e=>{const k=e.target.dataset.f;if(!k)return;F[k]=e.target.value;libPage=1;paint()};
-  $('#rs').onclick=()=>{Object.assign(F,F0);libPage=1;library()};
+  $('#rs').onclick=()=>{Object.assign(F,F0);libPage=1;library(src)};
   $('#ft').onclick=()=>{fOpen=!fOpen;$('#fp').hidden=!fOpen;$('#ft').setAttribute('aria-expanded',fOpen)};
-  el.querySelectorAll('[data-vw]').forEach(b=>b.onclick=()=>{LV=b.dataset.vw;save('lview',LV);libPage=1;library()});
+  el.querySelectorAll('[data-vw]').forEach(b=>b.onclick=()=>{LV=b.dataset.vw;save('lview',LV);libPage=1;library(src)});
   paint();
 }
-let CRS='mine',LV=load('lview')==='list'?'list':'grid',fOpen=false,pgBoard=1,libPage=1,wlPage=1,PG=null,SQ={q:'',type:'multi',page:1,data:null};
+let CSRC=null,CRS='mine',LV=load('lview')==='list'?'list':'grid',fOpen=false,pgBoard=1,libPage=1,wlPage=1,PG=null,SQ={q:'',type:'multi',page:1,data:null};
 function pager(cur,total,k='pg'){
   if(total<2)return'';
   const nums=[...new Set([1,total,cur-1,cur,cur+1])].filter(n=>n>=1&&n<=total).sort((x,y)=>x-y);
@@ -621,7 +769,7 @@ async function statsView(){
   $('#st-load').textContent=miss?`${miss} title${miss===1?'':'s'} could not be loaded and ${miss===1?'is':'are'} left out of watch time and countries. Reopen this tab to try again.`:'';
 }
 /* ---------- quiz ---------- */
-let QZ=load('quiz')||{best:{},hist:[]},QS={screen:'pick'},QT=0,KWC=load('kwc')||{};
+let QZ=load(qzKey())||{best:{},hist:[]},QS={screen:'pick'},QT=0,KWC=load('kwc')||{};
 const ROUNDS=10,NEED=8;
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -751,7 +899,7 @@ function endGame(){
   QS.newBest=sc>b.score;
   QZ.best[m]={score:Math.max(b.score,sc),streak:Math.max(b.streak,QS.maxStreak)};
   QZ.hist.unshift({m,sc,at:Date.now()});QZ.hist=QZ.hist.slice(0,20);
-  save('quiz',QZ);QS.screen='end';drawEnd();
+  save(qzKey(),QZ);QS.screen='end';drawEnd();
 }
 function drawPlay(){
   const q=QS.q,M=MODES[QS.mode],el=$('#main'),done=QS.answered;
@@ -801,9 +949,214 @@ function quizClick(b){
   else if(a==='again')startGame(QS.mode);
   else if(a==='quit'||a==='menu'){clearInterval(QT);QS={screen:'pick'};drawPick()}
 }
+/* ---------- public dashboard, account, members and admin screens ---------- */
+let PB={type:'movie',kind:'trending',page:1},ACCMSG='',AUTHM='in',USERS=null,UQ='',VU=null,VIEWU=null;
+const avatar=n=>`<span class="uav">${esc((n||'?')[0].toUpperCase())}</span>`;
+function ratePrompt(){
+  return`<div class="rate"><h3 style="margin-top:0">Rate and save titles</h3><p class="meta">${PROF?'Your account is waiting for the admin to approve it. After that you can rate titles, keep a To Watch list, play games and see your statistics.':'Log in to rate this title, add it to your To Watch list, play the games and see your statistics.'}</p>${PROF?'':'<button class="btn" data-login>Log in or create an account</button>'}</div>`;
+}
+function viewedLine(id){
+  if(view!=='ulib'||!VU)return'';
+  const x=VU.rows.find(r=>r.id===id);if(!x)return'';
+  return`<p class="meta">@${esc(VU.name)} rated this <span class="score">★ ${avgOf(x)}</span> · ${CATS.map(([k,l])=>`${l} ${x.ratings[k]}`).join(' · ')}</p>`;
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-go]');if(!g)return;
+  view=g.dataset.go;lockTop=true;closeM();
+});
+
+async function publicView(){
+  const el=$('#main'),T=[['movie','Movies'],['tv','Series']];
+  const kinds=PB.type==='person'?[['popular','Popular']]:[['trending','Trending'],['popular','Popular'],['top','Top rated']];
+  if(!kinds.some(k=>k[0]===PB.kind))PB.kind=kinds[0][0];
+  const sv='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  el.innerHTML=`<div class="chips tabs">${T.map(([k,l])=>`<button class="chip${PB.type===k?' on':''}" data-au="pbt:${k}" aria-label="${l}" title="${l}"><svg ${sv}>${TI[k]}</svg></button>`).join('')}</div>
+   <div class="chips">${kinds.map(([k,l])=>`<button class="chip${PB.kind===k?' on':''}" data-au="pbk:${k}">${l}</button>`).join('')}</div>
+   <div id="pbres"><p class="empty">Loading…</p></div>`;
+  const path=PB.type==='person'?`/person/popular?page=${PB.page}`:PB.kind==='trending'?`/trending/${PB.type}/week?page=${PB.page}`:`/${PB.type}/${PB.kind==='top'?'top_rated':'popular'}?page=${PB.page}`;
+  let d;
+  try{d=await tmdb(path)}catch(err){if(view==='public')$('#pbres').innerHTML=`<div class="msg">${esc(err.message)}</div>`;return}
+  if(view!=='public'||!$('#pbres'))return;
+  const items=d.results.map(r=>normS(r,PB.type)).filter(Boolean);
+  PG=n=>{PB.page=n;publicView()};
+  $('#pbres').innerHTML=`<div class="grid">${items.map(card).join('')}</div>${pager(PB.page,Math.min(d.total_pages||1,500))}`;
+}
+
+/* ---------- log in / create account pop-up ---------- */
+const am=document.createElement('div');am.id='authm';am.hidden=true;document.body.appendChild(am);
+let authLocked=false;
+function authForm(){
+  const up=AUTHM==='up';
+  return`<div class="chips"><button class="chip${!up?' on':''}" data-amode="in">Log in</button><button class="chip${up?' on':''}" data-amode="up">Create account</button></div>
+   <form id="af" class="aform">
+     <label>Username<input id="a-user" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="20" placeholder="3–20 letters, numbers or _"></label>
+     <label>4-digit PIN<input id="a-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="${up?'new-password':'current-password'}" placeholder="••••"></label>
+     ${up?'<label>Repeat PIN<input id="a-pin2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" placeholder="••••"></label><p class="meta">A new account has to be approved by the admin before you can rate titles, keep a To Watch list, play games or see statistics.</p>':''}
+     <button class="btn" id="a-go">${up?'Create account':'Log in'}</button><p class="meta" id="a-err"></p>
+   </form>`;
+}
+function drawAuth(){
+  am.innerHTML=`<div class="amc" role="dialog" aria-modal="true" aria-label="Log in or create an account"><button class="x" data-acl aria-label="Close">✕</button>${authForm()}</div>`;
+  $('#af').onsubmit=async e=>{
+    e.preventDefault();
+    const up=AUTHM==='up',u=$('#a-user').value.trim(),pin=$('#a-pin').value.trim(),err=t=>{$('#a-err').textContent=t};
+    if(!/^[a-z0-9_]{3,20}$/i.test(u)){err('Username: 3–20 letters, numbers or underscores.');return}
+    if(!/^\d{4}$/.test(pin)){err('The PIN must be exactly 4 digits.');return}
+    if(up&&pin!==$('#a-pin2').value.trim()){err('The two PINs do not match.');return}
+    $('#a-go').disabled=true;err('');
+    try{
+      if(up)await doSignUp(u,pin);else await doSignIn(u,pin);
+      closeAuth();
+      if($('#modal').classList.contains('open'))closeM();   // leave the film page that asked you to log in
+      await afterAuth();
+    }catch(ex){err(ex.message);$('#a-go').disabled=false}
+  };
+}
+function openAuth(mode){
+  if(mode)AUTHM=mode;
+  drawAuth();am.hidden=false;
+  if(lockY===null){lockPage();authLocked=true}
+  const i=$('#a-user');if(i)i.focus();
+}
+function closeAuth(){
+  am.hidden=true;am.innerHTML='';
+  if(authLocked){unlockPage();authLocked=false}
+}
+am.addEventListener('click',e=>{
+  if(e.target===am||e.target.closest('[data-acl]')){closeAuth();return}
+  const m=e.target.closest('[data-amode]');if(m){AUTHM=m.dataset.amode;drawAuth();const i=$('#a-user');if(i)i.focus()}
+});
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-login]'))openAuth('in');
+  else if(e.target.closest('[data-hv]')){view='account';render();window.scrollTo(0,0)}
+  else if(e.target.closest('[data-hout]'))doSignOut();
+});
+
+function accountView(){
+  const el=$('#main');
+  if(PROF){
+    const pend=!PROF.approved,note=ACCMSG;ACCMSG='';
+    el.innerHTML=`<h2>Account</h2><div class="acc">${avatar(PROF.username).replace('uav','uav lg')}<h3>@${esc(PROF.username)}</h3>
+     <p class="meta">${isAdmin()?'Admin':pend?'Waiting for approval':'Member'}</p>
+     ${note?`<div class="msg ok">${esc(note)}</div>`:''}
+     ${pend?'<div class="msg">Your account is waiting for the admin to approve it. Until then you can browse the Public dashboard and watch through the links.</div><button class="btn" data-au="refresh:">Check again</button>':''}
+     <div class="accf">
+      <details class="kwd"><summary>Change username</summary>
+       <form id="cu-form" class="aform"><label>New username<input id="cu-name" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="20" placeholder="3–20 letters, numbers or _"></label>
+        <button class="btn">Save username</button><p class="meta" id="cu-msg"></p></form></details>
+      <details class="kwd"><summary>Change PIN</summary>
+       <form id="cp-form" class="aform"><label>Current PIN<input id="cp-old" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="current-password" placeholder="••••"></label>
+        <label>New PIN<input id="cp-new" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" placeholder="••••"></label>
+        <label>Repeat new PIN<input id="cp-new2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" placeholder="••••"></label>
+        <button class="btn">Save PIN</button><p class="meta" id="cp-msg"></p></form></details>
+     </div></div>`;
+    const say=(id,t)=>{const m=$(id);if(m){m.textContent=t;m.style.color='var(--red)'}};
+    $('#cu-form').onsubmit=async e=>{
+      e.preventDefault();
+      const nn=$('#cu-name').value.trim(),btn=$('#cu-form .btn');
+      if(!/^[a-z0-9_]{3,20}$/i.test(nn)){say('#cu-msg','Username: 3–20 letters, numbers or underscores.');return}
+      if(nn.toLowerCase()===PROF.username.toLowerCase()){say('#cu-msg','That is already your username.');return}
+      btn.disabled=true;
+      try{
+        const r=await sbf('/rest/v1/rpc/change_username',{method:'POST',body:JSON.stringify({new_name:nn})});
+        if(!r.ok){
+          const d=await r.json().catch(()=>({}));
+          throw new Error(/taken|unique|duplicate/i.test(JSON.stringify(d))?'That username is taken.':r.status===404?'The database needs the latest SQL first (Part 3 in supabase-accounts.sql).':(d.message||'Could not change the username.'));
+        }
+        await loadProfile();USERS=null;ACCMSG=`Your username is now @${PROF.username}.`;nav();accountView();
+      }catch(ex){say('#cu-msg',ex.message);btn.disabled=false}
+    };
+    $('#cp-form').onsubmit=async e=>{
+      e.preventDefault();
+      const cur=$('#cp-old').value.trim(),n1=$('#cp-new').value.trim(),n2=$('#cp-new2').value.trim(),btn=$('#cp-form .btn');
+      if(!/^\d{4}$/.test(cur)||!/^\d{4}$/.test(n1)){say('#cp-msg','PINs must be exactly 4 digits.');return}
+      if(n1!==n2){say('#cp-msg','The two new PINs do not match.');return}
+      if(n1===cur){say('#cp-msg','The new PIN is the same as the current one.');return}
+      btn.disabled=true;
+      try{
+        const email=await myEmail(),h=email.split('@')[0];
+        try{await authCall('/token?grant_type=password',{email,password:authPass(h,cur)})}catch{throw new Error('Your current PIN is wrong.')}
+        const put=()=>fetch(cfg.sbUrl+'/auth/v1/user',{method:'PUT',headers:sbH(),body:JSON.stringify({password:authPass(h,n1),current_password:authPass(h,cur)})});
+        let r=await put();
+        if(r.status===401&&await refreshSess())r=await put();
+        if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.msg||d.message||'Could not change the PIN.')}
+        ACCMSG='Your PIN was changed.';accountView();
+      }catch(ex){say('#cp-msg',ex.message);btn.disabled=false}
+    };
+    return;
+  }
+  el.innerHTML=`<h2>Account</h2><p class="meta">Log in to rate titles, keep a To Watch list, play games and see your statistics.</p><button class="btn" data-login>Log in or create account</button>`;
+}
+
+async function usersView(){
+  const el=$('#main');
+  el.innerHTML=`<h2>Users</h2><p class="meta">Find other members and see what they have watched.</p><input id="usq" placeholder="Search by username…" value="${esc(UQ)}" autocomplete="off"><div id="ulist"><p class="empty">Loading…</p></div>`;
+  $('#usq').oninput=e=>{UQ=e.target.value;drawUsers()};
+  if(!USERS){
+    const r=await sbf('/rest/v1/profiles?approved=eq.true&select=id,username,role&order=username.asc');
+    USERS=r.ok?await r.json():[];
+  }
+  if(view==='users')drawUsers();
+}
+function drawUsers(){
+  const box=$('#ulist');if(!box)return;
+  const q=fold(UQ).trim(),list=(USERS||[]).filter(u=>u.id!==SESS?.user.id&&fold(u.username).includes(q));
+  box.innerHTML=list.length?`<div class="ul">${list.map(u=>`<button class="urow" data-au="viewlib:${u.id}" data-name="${esc(u.username)}">${avatar(u.username)}<span class="un">@${esc(u.username)}</span>${u.role==='admin'?'<span class="badge">Admin</span>':''}<span class="go">›</span></button>`).join('')}</div>`:'<p class="meta">No members found.</p>';
+}
+async function openUserLib(id,name){
+  $('#main').innerHTML='<p class="empty">Loading…</p>';
+  const r=await sbf(`/rest/v1/movies?user_id=eq.${id}&select=*&order=created_at.desc`);
+  const rows=r.ok?(await r.json()).filter(isW):[];
+  VU={id,name,rows};VIEWU=VU;libPage=1;view='ulib';render();window.scrollTo(0,0);
+}
+
+async function adminView(){
+  const el=$('#main');el.innerHTML='<h2>Admin</h2><p class="empty">Loading…</p>';
+  const r=await sbf('/rest/v1/profiles?select=*&order=created_at.asc');
+  if(view!=='admin')return;
+  if(!r.ok){el.innerHTML=`<h2>Admin</h2><div class="msg">Could not load the members (${r.status}).</div>`;return}
+  const rows=await r.json(),pend=rows.filter(x=>!x.approved),mem=rows.filter(x=>x.approved);
+  PENDING=pend.length;nav();
+  const dt=u=>u.created_at?new Date(u.created_at).toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'}):'';
+  const row=(u,btns)=>`<div class="arow">${avatar(u.username)}<span class="un">@${esc(u.username)}<small>Joined ${esc(dt(u))}</small></span>${u.role==='admin'?'<span class="badge">Admin</span>':''}<span class="abt">${btns}</span></div>`;
+  el.innerHTML=`<h2>Admin</h2>
+   <h3 class="hh">Waiting for approval (${pend.length})</h3>${pend.length?`<div class="lst">${pend.map(u=>row(u,`<button class="btn" data-au="approve:${u.id}">Approve</button><button class="btn ghost" data-au="reject:${u.id}" data-name="${esc(u.username)}">Reject</button>`)).join('')}</div>`:'<p class="meta">No accounts are waiting.</p>'}
+   <h3 class="hh">Members (${mem.length})</h3><div class="lst">${mem.map(u=>row(u,u.id===SESS.user.id?'<span class="meta">You</span>':`<button class="btn ghost" data-au="remove:${u.id}" data-name="${esc(u.username)}">Remove</button>`)).join('')}</div>`;
+}
+
+async function authClick(b){
+  const [a,v]=b.dataset.au.split(':'),name=b.dataset.name;
+  if(a==='mode'){AUTHM=v;accountView()}
+  else if(a==='pbt'){PB.type=v;PB.page=1;PB.kind='trending';publicView()}
+  else if(a==='pbk'){PB.kind=v;PB.page=1;publicView()}
+  else if(a==='signout')await doSignOut();
+  else if(a==='refresh')await afterAuth('account');
+  else if(a==='viewlib')openUserLib(v,name);
+  else if(a==='back'){view='users';render()}
+  else if(a==='approve'){
+    const r=await sbf(`/rest/v1/profiles?id=eq.${v}`,{method:'PATCH',body:JSON.stringify({approved:true})});
+    if(!r.ok){alert(`Could not approve (${r.status}).`);return}
+    USERS=null;adminView();
+  }else if(a==='reject'||a==='remove'){
+    if(!confirm(a==='reject'?`Reject and delete the account “${name}”?`:`Remove “${name}” and everything they rated?`))return;
+    const r=await sbf('/rest/v1/rpc/admin_delete_user',{method:'POST',body:JSON.stringify({target:v})});
+    if(!r.ok){alert(`Could not remove the account (${r.status}).`);return}
+    USERS=null;adminView();
+  }
+}
+
 function render(){
+  const NL=['dashboard','library','watch','board','stats','quiz','users','ulib'];
+  if(NL.includes(view)&&!canUse())view='public';
+  if(view==='admin'&&!isAdmin())view='public';
+  if(view==='ulib'&&!VU)view='users';
   Object.values(H).forEach(h=>clearInterval(h.t));clearInterval(QT);nav();const el=$('#main');
   if(view==='dashboard')dash();
+  else if(view==='public')publicView();
+  else if(view==='account')accountView();
+  else if(view==='admin')adminView();
+  else if(view==='users')usersView();
+  else if(view==='ulib')library(VU.rows);
   else if(view==='library')library();
   else if(view==='watch')watchView();
   else if(view==='stats')statsView();
@@ -819,6 +1172,7 @@ function render(){
   }
 }
 $('#main').onclick=e=>{
+  const au=e.target.closest('[data-au]');if(au){authClick(au);return}
   const kc=e.target.closest('[data-kw]');if(kc){SQ.type='keyword';SQ.kw={ids:[+kc.dataset.kw],label:kc.dataset.kn};SQ.page=1;runSearch();return}
   const z=e.target.closest('[data-qz]');if(z){quizClick(z);return}
   const t=e.target.closest('[data-t]');if(t){SQ.type=t.dataset.t;SQ.kw=null;SQ.page=1;runSearch();return}
@@ -858,33 +1212,31 @@ window.addEventListener('popstate',e=>{
   else{depth=0;doClose()}
 });
 $('#modal').onclick=e=>{if(e.target.id==='modal')closeM()};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.hidden)closeM()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.hidden){if(!am.hidden)closeAuth();else closeM()}});
 
 /* ---------- Watch Now: your own list of sites ---------- */
 let sitesSb=false,STARCOL=true;   // sitesSb: Supabase "sites" table reachable; STARCOL: it has the "starred" column
 async function sbPostSites(arr){
   const map=x=>STARCOL?{id:x.id,name:x.name,url:x.url,starred:!!x.starred}:{id:x.id,name:x.name,url:x.url};
-  const go=()=>fetch(cfg.sbUrl+'/rest/v1/sites',{method:'POST',headers:{...sbH(),Prefer:'resolution=merge-duplicates'},body:JSON.stringify(arr.map(map))});
+  const go=()=>sbf('/rest/v1/sites',{method:'POST',headers:{Prefer:'resolution=merge-duplicates'},body:JSON.stringify(arr.map(map))});
   let r=await go();
   if(!r.ok&&r.status===400&&STARCOL){STARCOL=false;r=await go()}   // column not added yet: keep going without it
   return r;
 }
 async function sitesLoad(){
   const local=load('sites')||[];
-  if(!sbOn()){SITES=local;return}
   try{
-    const r=await fetch(cfg.sbUrl+'/rest/v1/sites?select=*&order=created_at.asc',{headers:sbH()});
+    const r=await sbf('/rest/v1/sites?select=*&order=created_at.asc');
     if(!r.ok)throw new Error(r.status);
     const rows=await r.json();sitesSb=true;
     if(rows.length)STARCOL='starred' in rows[0];
-    if(!rows.length&&local.length){   // first time: copy the sites saved in this browser up to Supabase
-      await sbPostSites(local);SITES=local;
-    }else{
+    if(!rows.length&&local.length&&isAdmin()){await sbPostSites(local);SITES=local}   // first time: copy the admin's old local sites up
+    else{
       const lm=Object.fromEntries(local.map(x=>[x.id,!!x.starred]));
       SITES=rows.map(x=>({id:x.id,name:x.name,url:x.url,starred:STARCOL?!!x.starred:!!lm[x.id]}));
     }
     save('sites',SITES);
-  }catch{SITES=local;sitesSb=false}
+  }catch{SITES=isAdmin()?local:[];sitesSb=false}
 }
 async function sitesPutMany(arr){
   if(!sitesSb)return;
@@ -898,7 +1250,7 @@ async function sitesPut(x){
 }
 async function sitesDel(id){
   if(!sitesSb)return;
-  const r=await fetch(cfg.sbUrl+'/rest/v1/sites?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:sbH()});
+  const r=await sbf('/rest/v1/sites?id=eq.'+encodeURIComponent(id),{method:'DELETE'});
   if(!r.ok)throw new Error(`Could not delete from Supabase (${r.status}).`);
 }
 const WREG='PH';   // region used for the official streaming info (JustWatch data via TMDB)
@@ -913,20 +1265,24 @@ function siteLink(s,m){
 }
 const WSV='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 function wnBody(m){
-  const rows=[...SITES].sort((a,b)=>(b.starred?1:0)-(a.starred?1:0)).map(s=>`<div class="wrow${s.starred?' pref':''}"><a class="wl" href="${esc(siteLink(s,m))}" target="_blank" rel="noopener noreferrer"><b>${esc(s.name)}</b><small>${esc(hostOf(s.url))}${hasTpl(s.url)?'':' · searched through Google'}</small></a>
-    <button class="wi wstar${s.starred?' on':''}" data-ws="star:${s.id}" aria-pressed="${!!s.starred}" aria-label="${s.starred?'Remove preferred mark from':'Mark as preferred:'} ${esc(s.name)}" title="${s.starred?'Preferred (tap to unmark)':'Mark as preferred'}"><svg viewBox="0 0 24 24" fill="${s.starred?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></button>
+  const adm=isAdmin();
+  const star=on=>`<svg viewBox="0 0 24 24" fill="${on?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>`;
+  const rows=[...SITES].sort((a,b)=>(b.starred?1:0)-(a.starred?1:0)).map(s=>`<div class="wrow${s.starred?' pref':''}"><a class="wl" href="${esc(siteLink(s,m))}" target="_blank" rel="noopener noreferrer"><b>${esc(s.name)}</b><small>${esc(hostOf(s.url))}${hasTpl(s.url)?'':' · searched through Google'}</small></a>${adm?`
+    <button class="wi wstar${s.starred?' on':''}" data-ws="star:${s.id}" aria-pressed="${!!s.starred}" aria-label="${s.starred?'Remove preferred mark from':'Mark as preferred:'} ${esc(s.name)}" title="${s.starred?'Preferred (tap to unmark)':'Mark as preferred'}">${star(!!s.starred)}</button>
     <button class="wi" data-ws="edit:${s.id}" aria-label="Edit ${esc(s.name)}" title="Edit"><svg ${WSV}><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button>
-    <button class="wi" data-ws="del:${s.id}" aria-label="Delete ${esc(s.name)}" title="Delete"><svg ${WSV}><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>`).join('');
+    <button class="wi" data-ws="del:${s.id}" aria-label="Delete ${esc(s.name)}" title="Delete"><svg ${WSV}><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>`:(s.starred?`<span class="wi wstar on" title="Preferred" aria-label="Preferred">${star(true)}</span>`:'')}</div>`).join('');
   const cur=WF&&WF.id?SITES.find(x=>x.id===WF.id)||{}:{};
-  const form=WF?`<div class="wform"><label>Name<input id="wn-name" value="${esc(cur.name||'')}" placeholder="Any name you like"></label>
+  const form=!adm?'':WF?`<div class="wform"><label>Name<input id="wn-name" value="${esc(cur.name||'')}" placeholder="Any name you like"></label>
     <label>Link<input id="wn-url" value="${esc(cur.url||'')}" placeholder="https://site.com/search?q={query}" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
     <p class="meta">To search automatically, search any word on the site, copy the address of the results page, and replace that word with <code>{query}</code>. If you paste just the site address, it is searched through Google instead. Also available: <code>{year}</code>, <code>{slug}</code>, <code>{imdb}</code>.</p>
     <div class="acts"><button class="btn" data-ws="save:">Save</button><button class="btn ghost" data-ws="cancel:">Cancel</button></div><p class="meta" id="wn-err"></p></div>`
     :'<button class="btn ghost" data-ws="add:">+ Add site</button>';
-  return `${WP}${rows||(WF?'':'<p class="meta">No sites yet. Add the sites you use and they will open already searching for this title.</p>')}${form}${sbOn()&&!sitesSb?'<p class="meta">These sites are saved on this device only. Create the sites table in Supabase to sync them.</p>':(sitesSb&&!STARCOL?'<p class="meta">Stars are saved on this device only. Add the starred column in Supabase to sync them.</p>':'')}`;
+  const empty=adm?'No sites yet. Add the sites you use and they will open already searching for this title.':'No watch links have been added yet.';
+  const note=adm?(sbOn()&&!sitesSb?'<p class="meta">These sites are saved on this device only. Create the sites table in Supabase to sync them.</p>':(sitesSb&&!STARCOL?'<p class="meta">Stars are saved on this device only. Add the starred column in Supabase to sync them.</p>':'')):'';
+  return `${WP}${rows||(WF?'':`<p class="meta">${empty}</p>`)}${form}${note}`;
 }
 document.addEventListener('click',async e=>{
-  const b=e.target.closest('[data-ws]');if(!b)return;
+  const b=e.target.closest('[data-ws]');if(!b||!isAdmin())return;
   const [a,id]=b.dataset.ws.split(':');
   const err=t=>{const x=$('#wn-err');if(x)x.textContent=t;else alert(t)};
   try{
@@ -992,17 +1348,17 @@ async function openMovie(id){
       ${m.tmdb_rating?`<span class="badge">TMDB <span class="score">${m.tmdb_rating}</span></span>`:''}
       ${m.director?`<span class="badge">${tv?'Created by':'Dir.'} ${esc(m.director)}</span>`:''}
       ${imdbId?`<a class="badge" style="color:var(--hot)" target="_blank" rel="noopener" href="https://www.imdb.com/title/${imdbId}/">View on IMDb</a>`:''}</div>
-      <details class="wnow" id="wn"><summary>▶ Watch Now</summary><div class="wbody" id="wnb">${wnBody(m)}</div></details>
+      ${viewedLine(id)}<details class="wnow" id="wn"><summary>▶ Watch Now</summary><div class="wbody" id="wnb">${wnBody(m)}</div></details>
       <p class="clip">${esc(m.overview)}</p><button class="vm">View more</button>
       <details class="kwd mkw" id="maw"><summary>Awards</summary><div class="v">${awH}</div></details>${kwH}</div></div>
     ${shots.length?`<div class="strip wide">${shots.map(f=>`<img class="zm" loading="lazy" src="${IMG}w780${f}" data-full="${IMG}w1280${f}" alt="">`).join('')}</div>`:''}<h3>Cast</h3><div class="cast">${m.cast.map(a=>`<button data-a="${a.id}">${a.photo?`<img src="${a.photo}" alt="">`:'<div class="ph"></div>'}<span class="nm">${esc(a.name)}</span></button>`).join('')}</div>
-    <div class="rate"><h3 style="margin-top:0">${watched?'Your ratings':'Rate it to mark it as watched'}</h3>
+    ${canUse()?`<div class="rate"><h3 style="margin-top:0">${watched?'Your ratings':'Rate it to mark it as watched'}</h3>
     ${CATS.map(([k,l])=>`<div class="row"><span>${l}</span><span class="stars">${[1,2,3,4,5].map(n=>`<button data-k="${k}" data-n="${n}" aria-label="${n} stars" class="${(r[k]||0)>=n?'f':''}">★</button>`).join('')}</span></div>`).join('')}
-    <div class="acts"><button class="btn" id="add">${watched?'Update ratings':'Rate'}</button>${!saved?'<button class="btn ghost" id="wl">+ To Watch</button>':''}${saved?`<button class="btn danger ic" id="rm" aria-label="${watched?'Remove':'Remove from To Watch'}" title="${watched?'Remove':'Remove from To Watch'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button>`:''}</div></div>`);
+    <div class="acts"><button class="btn" id="add">${watched?'Update ratings':'Rate'}</button>${!saved?'<button class="btn ghost" id="wl">+ To Watch</button>':''}${saved?`<button class="btn danger ic" id="rm" aria-label="${watched?'Remove':'Remove from To Watch'}" title="${watched?'Remove':'Remove from To Watch'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button>`:''}</div></div>`:ratePrompt()}`);
     $('#sheet').querySelectorAll('.stars button').forEach(b=>b.onclick=()=>{r[b.dataset.k]=+b.dataset.n;paint()});
     $('#sheet').querySelectorAll('.cast button').forEach(b=>b.onclick=()=>openActor(+b.dataset.a));
     wireClips($('#sheet'));
-    $('#add').onclick=async()=>{
+    if($('#add'))$('#add').onclick=async()=>{
       if(CATS.some(([k])=>!r[k])){alert('Rate all four categories first.');return}
       m.ratings=r;try{await dbSave(m);saved=m;paint()}catch(e){alert(e.message)}};
     $('#wl')&&($('#wl').onclick=async()=>{m.ratings={};try{await dbSave(m);saved=m;paint()}catch(e){alert(e.message)}});
@@ -1136,13 +1492,25 @@ document.addEventListener('keydown',e=>{
 });
 
 /* ---------- boot ---------- */
-async function boot(){
+async function reloadAll(){
+  if(SESS&&SESS.expires_at<Date.now()/1000+60)await refreshSess();
+  await loadProfile();
+  QZ=load(qzKey())||(isAdmin()&&load('quiz'))||{best:{},hist:[]};
   const sp=sitesLoad();
-  try{all=await dbAll()}catch(e){all=load('lib')||[];$('#main').innerHTML=`<div class="msg">${esc(e.message)}</div>`}
-  await sp;
+  all=[];
+  if(canUse()){try{all=await dbAll()}catch(e){console.error(e)}}
+  split();await sp;
+  PENDING=0;
+  if(isAdmin()){try{const r=await sbf('/rest/v1/profiles?approved=eq.false&select=id');if(r.ok)PENDING=(await r.json()).length}catch{}}
 }
+async function afterAuth(go){
+  USERS=null;await reloadAll();
+  view=go==='account'&&PROF?'account':canUse()?(go&&go!=='public'?go:'dashboard'):(go==='public'||!PROF?'public':'account');
+  render();window.scrollTo(0,0);
+}
+async function boot(){await reloadAll()}
 if(history.state&&history.state.k)history.replaceState(null,'');
-boot().then(()=>{split();view='dashboard';render()});
+boot().then(()=>{split();view=canUse()?'dashboard':'public';render()});
 </script>
 </body>
 </html>

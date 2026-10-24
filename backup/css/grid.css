@@ -1,0 +1,6 @@
+/* Poster grid and poster cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+.poster{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:left;padding:0;display:block;width:100%}
+.poster img,.ph{width:100%;aspect-ratio:2/3;object-fit:cover;display:grid;place-items:center;background:var(--card);color:var(--mute)}
+.poster div{padding:8px 10px;font-size:.9rem}
+.poster small{color:var(--mute);display:block}

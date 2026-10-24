@@ -1,0 +1,13 @@
+/* Glow and frosted-glass effects layered on top of everything else */
+.score,.sr,.stars button.f,.stat b,.lb b{text-shadow:0 0 10px var(--glow)}
+.dots button.on{box-shadow:0 0 10px var(--glow)}
+.hero{box-shadow:0 0 24px rgba(176,54,173,.25)}
+.slide .txt{text-shadow:0 1px 8px rgba(0,0,0,.7)}
+/* frosted-glass pop-ups: film, actor and log-in windows */
+#modal{background:rgba(6,6,10,.5)}
+.sheet{background:rgba(22,22,28,.58);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+#authm{background:rgba(0,0,0,.9)}
+.amc{background:rgba(22,22,28,.58);-webkit-backdrop-filter:blur(24px) saturate(150%);backdrop-filter:blur(24px) saturate(150%);border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.sheet .rate,.sheet .wbody,.sheet .kwd,.sheet .msg{background:rgba(255,255,255,.07)}
+.sheet .x,.amc .x{background:rgba(255,255,255,.1)}
+.sheet input,.amc input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14)}

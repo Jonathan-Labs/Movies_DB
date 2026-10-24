@@ -1,0 +1,18 @@
+/* "Watch Now" site list inside the film pop-up */
+.wnow{margin:12px 0}
+.wnow>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--hot);color:#fff;font-weight:600;padding:10px 20px;border-radius:10px}
+.wnow>summary::-webkit-details-marker{display:none}
+.wbody{margin-top:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:10px}
+.wrow{display:flex;align-items:center;gap:4px;border-bottom:1px solid var(--line)}
+.wl{flex:1;min-width:0;display:block;padding:9px 8px;color:var(--ink);text-decoration:none;border-radius:8px}
+.wl:hover{background:rgba(255,255,255,.05)}
+.wl b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wl small{color:var(--mute)}
+.wi{flex:none;background:none;border:0;color:var(--mute);width:38px;height:38px;border-radius:8px;display:grid;place-items:center}
+.wi:hover{color:var(--hot)}
+.wi svg{width:18px;height:18px}
+.wbody>.btn{margin-top:10px}
+.wform label{display:block;margin:10px 0 4px}
+.wform code{color:var(--hot)}
+.wform .acts{margin-top:10px}
+.wi.wstar.on{color:var(--hot)}

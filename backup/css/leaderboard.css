@@ -1,0 +1,15 @@
+/* Top Actors leaderboard */
+.lb{list-style:none;padding:0}
+.lb li{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:8px;cursor:pointer}
+.lb img,.lb .ph{width:48px;height:48px;border-radius:50%;aspect-ratio:1}
+.lb b{margin-left:auto;font-family:'Bricolage Grotesque';font-size:1.4rem;color:var(--hot)}
+.lb .rk{width:28px;color:var(--mute)}
+.lb .ph{flex:none}
+.lb .rk{flex:none;width:28px}
+.lb li>div{flex:1;min-width:0}
+.lb b{flex:none}
+
+/* view toggle (list / pictures) */
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}
+.hrow h2{margin:0}
+.grid.actors .poster img{object-position:center top}
