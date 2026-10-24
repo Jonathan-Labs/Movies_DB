@@ -23,7 +23,7 @@ button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--hot);outline-offset:2px}
 header{position:sticky;top:0;z-index:5;background:rgba(10,10,10,.55);-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid rgba(255,255,255,.08);padding:12px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-header h1{font-size:1.3rem;flex:1 1 100%}
+header h1{font-size:1.3rem;flex:1 1 auto;min-width:0}
 header form{flex:1 1 240px;display:flex;gap:6px}
 input{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
 .btn{background:var(--hot);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600}
@@ -32,7 +32,7 @@ input{background:var(--card);border:1px solid var(--line);border-radius:8px;padd
 nav{display:flex;gap:4px}
 nav button{background:none;border:0;padding:8px 12px;border-radius:8px;color:var(--mute);font-weight:600}
 nav button.on{background:var(--card);color:var(--hot)}
-main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+main{max-width:none;margin:0;padding:20px 16px 60px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
 .poster{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:left;padding:0;display:block;width:100%}
 .poster img,.ph{width:100%;aspect-ratio:2/3;object-fit:cover;display:grid;place-items:center;background:var(--card);color:var(--mute)}
@@ -303,12 +303,25 @@ nav{flex-wrap:wrap}
 .sheet .rate,.sheet .wbody,.sheet .kwd,.sheet .msg{background:rgba(255,255,255,.07)}
 .sheet .x,.amc .x{background:rgba(255,255,255,.1)}
 .sheet input,.amc input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.14)}
+.htop{flex:1 1 100%;display:flex;align-items:center;gap:10px;min-width:0}
+header h1 .brand{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#hacct{display:flex;align-items:center;gap:8px;flex:none}
+.hu{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:3px 14px 3px 4px;color:var(--ink);font-weight:600}
+.hu .uav{width:28px;height:28px;font-size:.85rem}
+.hu .hn{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb{display:inline-flex;align-items:center;gap:8px;padding:8px 14px}
+.hb svg{width:18px;height:18px}
+@media(max-width:480px){.hb .lt{display:none}header.in .hb{padding:8px 10px}.hu .hn{max-width:96px}}
+@media(max-width:430px){header.in .brand{display:none}}
+.accf{max-width:420px;margin:20px auto 0;text-align:left}
+.accf .aform{max-width:none;margin:0;padding:0 14px 14px}
+.msg.ok{border-left-color:#3ecf8e}
 </style>
 </head>
 <body>
 <header>
-  <h1><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><mask id="pm"><rect width="64" height="64" fill="#fff"/><path d="M25 33L26.8 58M39 33L37.2 58" stroke="#000" stroke-width="2.6"/></mask>
-<g fill="currentColor"><circle cx="16" cy="24" r="6.5"/><circle cx="23" cy="16" r="7.5"/><circle cx="34" cy="11" r="8"/><circle cx="44" cy="16" r="7.5"/><circle cx="48" cy="25" r="6.5"/><circle cx="32" cy="24" r="8.5"/><path mask="url(#pm)" d="M11 33h42l-5.5 25h-31z"/></g></svg>BidoMeter</h1>
+  <div class="htop"><h1><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><mask id="pm"><rect width="64" height="64" fill="#fff"/><path d="M25 33L26.8 58M39 33L37.2 58" stroke="#000" stroke-width="2.6"/></mask>
+<g fill="currentColor"><circle cx="16" cy="24" r="6.5"/><circle cx="23" cy="16" r="7.5"/><circle cx="34" cy="11" r="8"/><circle cx="44" cy="16" r="7.5"/><circle cx="48" cy="25" r="6.5"/><circle cx="32" cy="24" r="8.5"/><path mask="url(#pm)" d="M11 33h42l-5.5 25h-31z"/></g></svg><span class="brand">BidoMeter</span></h1><div id="hacct"></div></div>
   <form id="sf"><input id="q" placeholder="Search movies, series, actors…" aria-label="Search movies, series and actors"><button class="sbtn" aria-label="Search" title="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
   <nav id="nav"></nav>
 </header>
@@ -355,7 +368,7 @@ const sbH=()=>{
   return{apikey:cfg.sbKey,...(tok?{Authorization:'Bearer '+tok}:(cfg.sbKey.startsWith('eyJ')?{Authorization:'Bearer '+cfg.sbKey}:{})),'Content-Type':'application/json'};
 };
 function setSess(d){
-  SESS={access_token:d.access_token,refresh_token:d.refresh_token,expires_at:d.expires_at||Math.floor(Date.now()/1000)+(d.expires_in||3600),user:{id:d.user.id}};
+  SESS={access_token:d.access_token,refresh_token:d.refresh_token,expires_at:d.expires_at||Math.floor(Date.now()/1000)+(d.expires_in||3600),user:{id:d.user.id,email:d.user.email}};
   save('sess',SESS);
 }
 function clearSess(){SESS=null;PROF=null;try{localStorage.removeItem('sess')}catch{}}
@@ -387,12 +400,31 @@ async function loadProfile(){
 async function doSignUp(u,pin){
   let d;
   try{d=await authCall('/signup',{email:authEmail(u),password:authPass(u,pin),data:{username:u.toLowerCase()}})}
-  catch(e){throw new Error(/already|registered|exists/i.test(e.message)?'That username is taken.':/rate limit/i.test(e.message)?'Supabase is trying to send a confirmation email. The admin needs to turn off “Confirm email” in Supabase (Authentication → Sign In / Providers → Email) and then try again.':e.message)}
+  catch(e){throw new Error(/already|registered|exists|database error/i.test(e.message)?'That username is taken.':/rate limit/i.test(e.message)?'Supabase is trying to send a confirmation email. The admin needs to turn off “Confirm email” in Supabase (Authentication → Sign In / Providers → Email) and then try again.':e.message)}
   if(!d.access_token)throw new Error('The account was created, but Supabase still wants email confirmation. Turn off “Confirm email” in Authentication → Sign In / Providers → Email, then ask the admin to remove this account and try again.');
   setSess(d);
 }
+/* The login address is fixed when an account is created, so a member can change the username shown on the site
+   without touching the sign-in itself. This looks up the address that belongs to a username. */
+async function loginEmail(u){
+  try{
+    const r=await fetch(cfg.sbUrl+'/rest/v1/rpc/auth_email_for',{method:'POST',headers:{apikey:cfg.sbKey,'Content-Type':'application/json'},body:JSON.stringify({u})});
+    if(r.ok)return await r.json();   // null = unknown username
+  }catch{}
+  return authEmail(u);               // the SQL for renaming is not installed yet: usernames still match their login address
+}
+async function myEmail(){
+  if(SESS?.user?.email)return SESS.user.email;
+  const r=await fetch(cfg.sbUrl+'/auth/v1/user',{headers:sbH()});const d=await r.json().catch(()=>({}));
+  if(!d.email)throw new Error('Could not read your account.');
+  SESS.user.email=d.email;save('sess',SESS);return d.email;
+}
 async function doSignIn(u,pin){
-  try{setSess(await authCall('/token?grant_type=password',{email:authEmail(u),password:authPass(u,pin)}))}
+  try{
+    const email=await loginEmail(u);
+    if(!email)throw new Error('Invalid login credentials');
+    setSess(await authCall('/token?grant_type=password',{email,password:authPass(email.split('@')[0],pin)}));
+  }
   catch(e){throw new Error(/invalid login|credentials/i.test(e.message)?'Wrong username or PIN.':/not confirmed/i.test(e.message)?'This account was never activated. Ask the admin to remove it so you can create it again.':e.message)}
 }
 async function doSignOut(){
@@ -452,12 +484,14 @@ function tabs(){
   const t=[['public','Public']];
   if(canUse())t.push(['dashboard','Dashboard'],['library','Library'],['watch','To Watch'],['board','Leaderboard'],['stats','Statistics'],['quiz','Quiz'],['users','Users']);
   if(isAdmin())t.push(['admin','Admin']);
-  t.push(['account',PROF?'Account':'Log in']);
   return t;
 }
 function nav(){
   const sv='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
-  document.querySelector('header').classList.toggle('few',tabs().length<=3);
+  const hd=document.querySelector('header');hd.classList.toggle('few',tabs().length<=3);hd.classList.toggle('in',!!PROF);
+  $('#hacct').innerHTML=PROF
+    ?`<button class="hu" data-hv title="Your account">${avatar(PROF.username)}<span class="hn">@${esc(PROF.username)}</span></button><button class="btn ghost hb" data-hout aria-label="Log out" title="Log out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="lt">Log out</span></button>`
+    :'<button class="btn hb" data-login>Log in</button>';
   $('#nav').innerHTML=tabs().map(([k,l])=>`<button class="${view===k||(k==='users'&&view==='ulib')?'on':''}" data-v="${k}" aria-label="${l}" title="${l}"><svg ${sv}>${IC[k==='account'&&!PROF?'login':k]}</svg>${k==='admin'&&PENDING?`<span class="dot">${PENDING}</span>`:''}</button>`).join('');
 }
 $('#nav').onclick=e=>{const b=e.target.closest('[data-v]');if(b){if(b.dataset.v==='account'&&!PROF){openAuth('in');return}view=b.dataset.v;render();window.scrollTo(0,0)}};
@@ -916,7 +950,7 @@ function quizClick(b){
   else if(a==='quit'||a==='menu'){clearInterval(QT);QS={screen:'pick'};drawPick()}
 }
 /* ---------- public dashboard, account, members and admin screens ---------- */
-let PB={type:'movie',kind:'trending',page:1},AUTHM='in',USERS=null,UQ='',VU=null,VIEWU=null;
+let PB={type:'movie',kind:'trending',page:1},ACCMSG='',AUTHM='in',USERS=null,UQ='',VU=null,VIEWU=null;
 const avatar=n=>`<span class="uav">${esc((n||'?')[0].toUpperCase())}</span>`;
 function ratePrompt(){
   return`<div class="rate"><h3 style="margin-top:0">Rate and save titles</h3><p class="meta">${PROF?'Your account is waiting for the admin to approve it. After that you can rate titles, keep a To Watch list, play games and see your statistics.':'Log in to rate this title, add it to your To Watch list, play the games and see your statistics.'}</p>${PROF?'':'<button class="btn" data-login>Log in or create an account</button>'}</div>`;
@@ -992,16 +1026,63 @@ am.addEventListener('click',e=>{
   if(e.target===am||e.target.closest('[data-acl]')){closeAuth();return}
   const m=e.target.closest('[data-amode]');if(m){AUTHM=m.dataset.amode;drawAuth();const i=$('#a-user');if(i)i.focus()}
 });
-document.addEventListener('click',e=>{if(e.target.closest('[data-login]'))openAuth('in')});
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-login]'))openAuth('in');
+  else if(e.target.closest('[data-hv]')){view='account';render();window.scrollTo(0,0)}
+  else if(e.target.closest('[data-hout]'))doSignOut();
+});
 
 function accountView(){
   const el=$('#main');
   if(PROF){
-    const pend=!PROF.approved;
+    const pend=!PROF.approved,note=ACCMSG;ACCMSG='';
     el.innerHTML=`<h2>Account</h2><div class="acc">${avatar(PROF.username).replace('uav','uav lg')}<h3>@${esc(PROF.username)}</h3>
      <p class="meta">${isAdmin()?'Admin':pend?'Waiting for approval':'Member'}</p>
-     ${pend?'<div class="msg">Your account is waiting for the admin to approve it. Until then you can browse the Public dashboard and watch through the links.</div><button class="btn" data-au="refresh:">Check again</button> ':''}
-     <button class="btn ghost" data-au="signout:">Log out</button></div>`;
+     ${note?`<div class="msg ok">${esc(note)}</div>`:''}
+     ${pend?'<div class="msg">Your account is waiting for the admin to approve it. Until then you can browse the Public dashboard and watch through the links.</div><button class="btn" data-au="refresh:">Check again</button>':''}
+     <div class="accf">
+      <details class="kwd"><summary>Change username</summary>
+       <form id="cu-form" class="aform"><label>New username<input id="cu-name" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="20" placeholder="3–20 letters, numbers or _"></label>
+        <button class="btn">Save username</button><p class="meta" id="cu-msg"></p></form></details>
+      <details class="kwd"><summary>Change PIN</summary>
+       <form id="cp-form" class="aform"><label>Current PIN<input id="cp-old" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="current-password" placeholder="••••"></label>
+        <label>New PIN<input id="cp-new" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" placeholder="••••"></label>
+        <label>Repeat new PIN<input id="cp-new2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" placeholder="••••"></label>
+        <button class="btn">Save PIN</button><p class="meta" id="cp-msg"></p></form></details>
+     </div></div>`;
+    const say=(id,t)=>{const m=$(id);if(m){m.textContent=t;m.style.color='var(--red)'}};
+    $('#cu-form').onsubmit=async e=>{
+      e.preventDefault();
+      const nn=$('#cu-name').value.trim(),btn=$('#cu-form .btn');
+      if(!/^[a-z0-9_]{3,20}$/i.test(nn)){say('#cu-msg','Username: 3–20 letters, numbers or underscores.');return}
+      if(nn.toLowerCase()===PROF.username.toLowerCase()){say('#cu-msg','That is already your username.');return}
+      btn.disabled=true;
+      try{
+        const r=await sbf('/rest/v1/rpc/change_username',{method:'POST',body:JSON.stringify({new_name:nn})});
+        if(!r.ok){
+          const d=await r.json().catch(()=>({}));
+          throw new Error(/taken|unique|duplicate/i.test(JSON.stringify(d))?'That username is taken.':r.status===404?'The database needs the latest SQL first (Part 3 in supabase-accounts.sql).':(d.message||'Could not change the username.'));
+        }
+        await loadProfile();USERS=null;ACCMSG=`Your username is now @${PROF.username}.`;nav();accountView();
+      }catch(ex){say('#cu-msg',ex.message);btn.disabled=false}
+    };
+    $('#cp-form').onsubmit=async e=>{
+      e.preventDefault();
+      const cur=$('#cp-old').value.trim(),n1=$('#cp-new').value.trim(),n2=$('#cp-new2').value.trim(),btn=$('#cp-form .btn');
+      if(!/^\d{4}$/.test(cur)||!/^\d{4}$/.test(n1)){say('#cp-msg','PINs must be exactly 4 digits.');return}
+      if(n1!==n2){say('#cp-msg','The two new PINs do not match.');return}
+      if(n1===cur){say('#cp-msg','The new PIN is the same as the current one.');return}
+      btn.disabled=true;
+      try{
+        const email=await myEmail(),h=email.split('@')[0];
+        try{await authCall('/token?grant_type=password',{email,password:authPass(h,cur)})}catch{throw new Error('Your current PIN is wrong.')}
+        const put=()=>fetch(cfg.sbUrl+'/auth/v1/user',{method:'PUT',headers:sbH(),body:JSON.stringify({password:authPass(h,n1),current_password:authPass(h,cur)})});
+        let r=await put();
+        if(r.status===401&&await refreshSess())r=await put();
+        if(!r.ok){const d=await r.json().catch(()=>({}));throw new Error(d.msg||d.message||'Could not change the PIN.')}
+        ACCMSG='Your PIN was changed.';accountView();
+      }catch(ex){say('#cp-msg',ex.message);btn.disabled=false}
+    };
     return;
   }
   el.innerHTML=`<h2>Account</h2><p class="meta">Log in to rate titles, keep a To Watch list, play games and see your statistics.</p><button class="btn" data-login>Log in or create account</button>`;
