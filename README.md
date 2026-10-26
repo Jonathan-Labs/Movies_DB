@@ -1,7 +1,7 @@
 # BidoMeter – project layout
 
 Plain HTML/CSS/JS, no build step. Open `index.html` (or serve the folder) and it works.
-`favicon.svg`, `icon-192.png`, `icon-512.png` and `apple-touch-icon.png` (the BidoMeter logo) sit next to `index.html`; keep your `manifest.webmanifest` there too.
+`favicon.svg`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png` and `apple-touch-icon.png` (the BidoMeter logo) sit next to `index.html`; keep your `manifest.webmanifest` there too.
 The header logo is an inline SVG in `index.html` that uses `currentColor`, so it follows the `--hot` accent colour (`css/base.css`).
 
 ## Scripts (`js/`)
