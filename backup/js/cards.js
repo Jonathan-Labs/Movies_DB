@@ -18,3 +18,9 @@ function wireClips(root){
     b.onclick=()=>{const o=el.classList.toggle('open');b.textContent=o?'View less':'View more'};
   });
 }
+
+/* Picture / List toggle used on every screen that has one. `attr` is the data-attribute the click handler looks for. */
+const VSV='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+function viewToggle(attr,cur){
+  return`<div class="vt"><button data-${attr}="grid" class="${cur==='grid'?'on':''}" aria-label="Picture view" title="Picture view"><svg ${VSV}><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button data-${attr}="list" class="${cur==='list'?'on':''}" aria-label="List view" title="List view"><svg ${VSV}><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button></div>`;
+}

@@ -1,7 +1,7 @@
 /* Film / series detail pop-up */
 async function openMovie(id){
   track('m',id);
-  open('<p class="empty">Loading…</p>');
+  open(loadingHTML());
   let d,saved=all.find(x=>x.id===id);
   const tv=id<0;
   try{d=await tmdb(tv?`/tv/${-id}?append_to_response=aggregate_credits,external_ids,images,keywords,watch/providers&include_image_language=en,null`:`/movie/${id}?append_to_response=credits,external_ids,images,keywords,watch/providers&include_image_language=en,null`)}
@@ -20,7 +20,7 @@ async function openMovie(id){
     imdb_rating:saved?.imdb_rating||null,ratings:saved?.ratings||{}};
   const om=await omdbData(imdbId);
   if(!m.imdb_rating&&om?.imdbRating&&om.imdbRating!=='N/A')m.imdb_rating=om.imdbRating;
-  let awH='Loading…';
+  let awH=spinHTML()+'Loading…';
   const wpv=d['watch/providers']?.results?.[WREG];
   const pn=wpv?[...new Set([...(wpv.flatrate||[]),...(wpv.free||[]),...(wpv.ads||[])].map(x=>x.provider_name))].slice(0,6):[];
   WM=m;WF=null;

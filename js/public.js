@@ -1,7 +1,7 @@
 /* Public dashboard (trending/popular) and small shared account helpers */
 /* ---------- public dashboard, account, members and admin screens ---------- */
 let PB={type:'movie',kind:'trending',page:1},ACCMSG='',AUTHM='in',USERS=null,UQ='',VU=null,VIEWU=null;
-const avatar=n=>`<span class="uav">${esc((n||'?')[0].toUpperCase())}</span>`;
+const avatar=(n,c='')=>`<span class="uav ${c}">${esc((n||'?')[0].toUpperCase())}</span>`;
 function ratePrompt(){
   return`<div class="rate"><h3 style="margin-top:0">Rate and save titles</h3><p class="meta">${PROF?'Your account is waiting for the admin to approve it. After that you can rate titles, keep a To Watch list, play games and see your statistics.':'Log in to rate this title, add it to your To Watch list, play the games and see your statistics.'}</p>${PROF?'':'<button class="btn" data-login>Log in or create an account</button>'}</div>`;
 }
@@ -28,7 +28,7 @@ async function publicView(){
     <label>Type${sel('type',T)}</label>
     <label>Event${sel('kind',K)}</label>
     <button class="btn ghost ic" id="rs" aria-label="Reset filters" title="Reset filters"><svg ${VSV}><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button></div>
-   <div id="pbres"><p class="empty">Loading…</p></div>`;
+   <div id="pbres">${loadingHTML()}</div>`;
   $('#ft').onclick=()=>{pOpen=!pOpen;$('#fp').hidden=!pOpen;$('#ft').setAttribute('aria-expanded',pOpen)};
   el.querySelectorAll('[data-pf]').forEach(s=>s.onchange=()=>{PB[s.dataset.pf]=s.value;PB.page=1;publicView()});
   $('#rs').onclick=()=>{Object.assign(PB,PB0,{page:1});publicView()};
@@ -39,7 +39,7 @@ async function publicView(){
     const path=PB.kind==='trending'?`/trending/${PB.type}/week`:`/${PB.type}/${PB.kind==='top'?'top_rated':'popular'}`;
     let d;
     try{d=await tmdbPaged(path,PB.page)}catch(err){if(view==='public'&&$('#pbres'))$('#pbres').innerHTML=`<div class="msg">${esc(err.message)}</div>`;return}
-    c=PBC={key,items:d.results.map(r=>normS(r,PB.type)).filter(Boolean),pages:d.total_pages||1};
+    c=PBC={key,items:uniq(d.results.map(r=>normS(r,PB.type)).filter(Boolean)),pages:d.total_pages||1};
   }
   if(view!=='public'||!$('#pbres'))return;
   PG=n=>{PB.page=n;publicView()};

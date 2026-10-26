@@ -2,7 +2,7 @@
 async function openActor(pid){
   track('a',pid);
   actorTok=pid;
-  open('<p class="empty">Loading…</p>');
+  open(loadingHTML());
   let p,c;
   try{[p,c]=await Promise.all([tmdb(`/person/${pid}?append_to_response=external_ids,images`),tmdb(`/person/${pid}/combined_credits`)])}
   catch(err){open(`<div class="msg">${esc(err.message)}</div>`);return}
@@ -23,7 +23,7 @@ async function openActor(pid){
      ${p.deathday?'':'<p id="lv" hidden><span class="k">Lives in</span><span class="v"></span></p>'}
      </div>
     ${bio?`<p class="clip">${esc(bio)}</p><button class="vm">View more</button>`:''}
-    <details class="kwd mkw" id="aw"><summary>Awards</summary><div class="v">Loading…</div></details>
+    <details class="kwd mkw" id="aw"><summary>Awards</summary><div class="v">${spinHTML()}Loading…</div></details>
     <div class="badges"><span class="badge">You’ve watched <span class="score">${n}</span> of ${films.length} titles</span></div></div></div>
     <h3 id="wk">Other work (${films.length})</h3><div id="work"></div>`);
   $('#sheet').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>openMovie(+b.dataset.m));

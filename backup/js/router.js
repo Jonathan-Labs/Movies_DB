@@ -24,8 +24,7 @@ function render(){
     lib.forEach(m=>(m.cast||[]).forEach(a=>{(map[a.id]??={...a,n:0,films:[]}).n++;map[a.id].films.push(m.title)}));
     const rows=Object.values(map).filter(a=>a.photo).sort((a,b)=>b.n-a.n||a.name.localeCompare(b.name));
     const per=24,pages=Math.max(1,Math.ceil(rows.length/per));pgBoard=Math.min(pgBoard,pages);const start=(pgBoard-1)*per;PG=n=>{pgBoard=n;render()};
-    const sv='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
-    const toggle=`<div class="vt"><button data-bv="grid" class="${BV==='grid'?'on':''}" aria-label="Picture view" title="Picture view"><svg ${sv}><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button><button data-bv="list" class="${BV==='list'?'on':''}" aria-label="List view" title="List view"><svg ${sv}><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button></div>`;
+    const toggle=viewToggle('bv',BV);
     const page=rows.slice(start,start+per);
     const listH=`<ul class="lb">${page.map((a,i)=>`<li data-a="${a.id}"><span class="rk">${start+i+1}</span>${a.photo?`<img src="${a.photo}" alt="">`:'<div class="ph"></div>'}<div>${esc(a.name)}<br><small style="color:var(--mute)">${esc(a.films.slice(0,3).join(', '))}${a.films.length>3?'…':''}</small></div><b>${a.n}</b></li>`).join('')}</ul>`;
     const gridH=`<div class="grid actors">${page.map((a,i)=>`<button class="poster" data-a="${a.id}"><img loading="lazy" src="${a.photo.replace('/w185/','/h632/')}" alt=""><div>${start+i+1}. ${esc(a.name)}<small>${a.n} title${a.n===1?'':'s'}</small></div></button>`).join('')}</div>`;

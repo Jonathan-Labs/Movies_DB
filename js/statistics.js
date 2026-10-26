@@ -49,14 +49,13 @@ async function statsView(){
   const rate=a=>[5,4,3,2,1].map(st=>[st===5?'5.0':`${st}.0 – ${st}.9`,a.filter(m=>Math.floor(raw(m))===st).length]);
   const labs=['All titles','Movies','Series'];
   el.innerHTML=`<h2>Statistics</h2>
-   <div class="stats">${statCard(lib.length,'Titles watched')}${statCard(mv.length,'Movies')}${statCard(sr.length,'Series')}</div>
-   <h2 class="hh">Total watch time</h2>
-   <div class="stats" id="st-time">${labs.map(l=>timeCard('…',l)).join('')}</div>
+   <div class="srow tops"><div class="sbox"><h2 class="hh">Titles watched</h2><div class="stats">${statCard(lib.length,'Titles watched')}${statCard(mv.length,'Movies')}${statCard(sr.length,'Series')}</div></div>
+    <div class="sbox"><h2 class="hh">Total watch time</h2><div class="stats" id="st-time">${labs.map(l=>timeCard('…',l)).join('')}</div></div></div>
    <p class="meta" id="st-load"></p>
-   <h2 class="hh">Movies by My Rating</h2>${mv.length?bars(rate(mv),5,'rm'):'<p class="meta">No movies yet.</p>'}
-   <h2 class="hh">Series by My Rating</h2>${sr.length?bars(rate(sr),5,'rs'):'<p class="meta">No series yet.</p>'}
-   <h2 class="hh">Genres</h2>${bars(cnt(lib,m=>(m.genres||'').split(', ').filter(Boolean)),10,'g')}
-   <h2 class="hh">Countries</h2><div id="st-country"><p class="meta">Loading…</p></div>`;
+   <div class="srow"><div class="sbox"><h2 class="hh">Movies by My Rating</h2>${mv.length?bars(rate(mv),5,'rm'):'<p class="meta">No movies yet.</p>'}</div>
+    <div class="sbox"><h2 class="hh">Series by My Rating</h2>${sr.length?bars(rate(sr),5,'rs'):'<p class="meta">No series yet.</p>'}</div></div>
+   <div class="srow"><div class="sbox"><h2 class="hh">Genres</h2>${bars(cnt(lib,m=>(m.genres||'').split(', ').filter(Boolean)),10,'g')}</div>
+    <div class="sbox"><h2 class="hh">Countries</h2><div id="st-country"><p class="meta">${spinHTML()}Loading…</p></div></div></div>`;
   const live=()=>tok===statTok&&view==='stats';
   await ensureMeta(lib,(d,n)=>{if(live()&&$('#st-load'))$('#st-load').textContent=n&&d<n?`Loading details… ${d}/${n}`:''});
   if(!live())return;

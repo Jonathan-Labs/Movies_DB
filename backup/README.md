@@ -14,7 +14,7 @@ so **order matters** – a file can only run code at load time that depends on f
 | db.js | Your library in Supabase (save / delete / load) |
 | api.js | TMDB and OMDb requests |
 | nav.js | Header tabs, icons, search-box submit |
-| cards.js | Shared helpers: poster `card()`, `avgOf`, `num`, "view more" clamps |
+| cards.js | Shared helpers: poster `card()`, `avgOf`, `num`, "view more" clamps, Picture/List `viewToggle()` |
 | pager.js | Pagination buttons |
 | dashboard.js | Dashboard hero slideshows, top actors, recently added |
 | library.js | Watched screen: filters, grid/list views |
@@ -22,7 +22,7 @@ so **order matters** – a file can only run code at load time that depends on f
 | watchlist.js | To Watch screen |
 | statistics.js | Statistics screen |
 | quiz.js | Quiz games |
-| public.js | Public (trending/popular) screen + small shared helpers |
+| public.js | Public screen (Filters: Type + Event, Picture/List toggle) + small shared helpers |
 | auth-modal.js | Log in / create account pop-up |
 | account.js | Account page (change username / PIN) |
 | users.js | Users list and other members' libraries |

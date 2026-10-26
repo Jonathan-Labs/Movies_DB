@@ -16,8 +16,6 @@ async function adminView(){
 async function authClick(b){
   const [a,v]=b.dataset.au.split(':'),name=b.dataset.name;
   if(a==='mode'){AUTHM=v;accountView()}
-  else if(a==='pbt'){PB.type=v;PB.page=1;PB.kind='trending';publicView()}
-  else if(a==='pbk'){PB.kind=v;PB.page=1;publicView()}
   else if(a==='signout')await doSignOut();
   else if(a==='refresh')await afterAuth('account');
   else if(a==='viewlib')openUserLib(v,name);

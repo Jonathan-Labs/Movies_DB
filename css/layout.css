@@ -35,13 +35,14 @@ header h1 .brand{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:430px){header.in .hu .hn{max-width:64px}}
 
 /* PC: everything on one line, in this order: logo, site name, search, nav tabs, account, log in/out.
+   The nav tabs, account and log in/out are pushed to the right edge.
    .htop is dissolved (display:contents) so its children can be ordered together with the nav and search box. */
 @media(min-width:1024px){
   header{flex-wrap:nowrap;gap:14px}
   .htop{display:contents}
   header h1{order:1;flex:0 0 auto}
   header form{order:2;flex:1 1 140px;min-width:120px;max-width:420px}
-  header nav{order:3;flex:0 0 auto;flex-wrap:nowrap;margin-left:0}
-  #hacct{order:4;margin-left:auto}
+  header nav{order:3;flex:0 0 auto;flex-wrap:nowrap;margin-left:auto}
+  #hacct{order:4}
 }
 @media(min-width:1024px) and (max-width:1200px){.hb .lt{display:none}header.in .hb{padding:8px 10px}.hu .hn{max-width:110px}}

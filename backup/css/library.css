@@ -2,7 +2,6 @@
 .filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px;align-items:end}
 .filters label{margin:0;font-size:.8rem}
 .filters input{margin-top:4px}
-.lbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
 .ftb{display:inline-flex;align-items:center;gap:8px}
 .ftb svg,.vt svg{width:18px;height:18px}
 .fb{background:var(--hot);color:#fff;border-radius:10px;min-width:20px;padding:0 6px;font-size:.75rem;text-align:center}

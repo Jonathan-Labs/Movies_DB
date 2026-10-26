@@ -1,24 +1,30 @@
 /* Account page, Users list, Admin screen and the log-in pop-up */
-.ul{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:14px}
-.urow{display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px;border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);text-align:left}
-.urow:last-child{border-bottom:0}
-.urow:hover{background:var(--card)}
-.urow .un{flex:1;min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis}
-.urow .go{color:var(--mute);font-size:1.3rem}
-.arow{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.arow:last-child{border-bottom:0}
-.arow .un{flex:1;min-width:120px;font-weight:600}
-.arow .un small{display:block;color:var(--mute);font-weight:400}
-.abt{display:flex;gap:8px;flex-wrap:wrap}
 .acc{text-align:center;padding:24px 0}
 .acc .msg{text-align:left;max-width:460px;margin:12px auto}
 .aform{max-width:380px;margin-top:14px}
 .aform label{display:block;margin:12px 0 4px}
 .aform .btn{margin-top:14px}
-.lst .arow .btn{padding:8px 14px}
 #authm{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:16px;overflow:auto}
 .amc{position:relative;width:100%;max-width:380px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:22px 20px 20px}
 .amc .chips{margin:4px 44px 6px 0}
 .amc .aform{margin-top:6px}
 .accf{max-width:420px;margin:20px auto 0;text-align:left}
 .accf .aform{max-width:none;margin:0;padding:0 14px 14px}
+/* member cards (Users and Admin): avatar on top, name below, count / join date at the bottom */
+.ucards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:14px}
+.ucard{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;padding:18px 12px 14px;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--ink)}
+button.ucard:hover{border-color:var(--hot)}
+.ucard .uav.lg{margin:0}
+.ucard .un{max-width:100%;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ubot{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;padding-top:4px}
+.ufoot{color:var(--mute);font-size:.85rem}
+.ufoot b{color:var(--ink)}
+.abt{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.ucard .btn{padding:7px 12px;font-size:.85rem}
+
+.utag{font-weight:600;color:var(--ink)}
+/* Users: small search box with a magnifier inside, on the right */
+.sbar{position:relative;flex:1 1 150px;max-width:240px;margin:0}
+.sbar svg{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--mute);pointer-events:none}
+.sbar input{padding:8px 34px 8px 12px;font-size:.9rem}
+.sbar input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}

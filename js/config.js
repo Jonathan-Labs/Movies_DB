@@ -14,7 +14,9 @@ if(!cfg.omdb)cfg.omdb=DEF.omdb;
 let lib=[],view='library',results=[];
 let all=[],wl=[];
 const isW=m=>CATS.every(([k])=>m.ratings&&m.ratings[k]);
-function split(){lib=all.filter(isW);wl=all.filter(m=>!isW(m))}
+/* Drops repeated entries (same id), keeping the first. People and titles are keyed separately because a person and a movie can share a number. */
+const uniq=a=>{const seen=new Set();return a.filter(m=>{const k=(m.person?'p':'m')+m.id;return seen.has(k)?false:(seen.add(k),true)})};
+function split(){const u=uniq(all);lib=u.filter(isW);wl=u.filter(m=>!isW(m))}
 const IMG='https://image.tmdb.org/t/p/';
 /* Series are stored with a negative id (-tmdbId) so they never clash with movie ids; no table change needed */
 const norm=r=>({id:r.media_type==='tv'?-r.id:r.id,title:r.title||r.name,release_date:r.release_date||r.first_air_date,poster_path:r.poster_path});

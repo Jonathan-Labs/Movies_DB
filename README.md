@@ -1,7 +1,8 @@
 # BidoMeter – project layout
 
 Plain HTML/CSS/JS, no build step. Open `index.html` (or serve the folder) and it works.
-Keep `favicon.svg`, `icon-192.png`, `apple-touch-icon.png` and `manifest.webmanifest` next to `index.html`.
+`favicon.svg`, `icon-192.png`, `icon-512.png` and `apple-touch-icon.png` (the BidoMeter logo) sit next to `index.html`; keep your `manifest.webmanifest` there too.
+The header logo is an inline SVG in `index.html` that uses `currentColor`, so it follows the `--hot` accent colour (`css/base.css`).
 
 ## Scripts (`js/`)
 Loaded in this order by `index.html`. They are classic scripts sharing one global scope (not ES modules),
@@ -9,7 +10,7 @@ so **order matters** – a file can only run code at load time that depends on f
 
 | File | What it holds |
 |---|---|
-| config.js | API keys/defaults, localStorage helpers, shared state (`lib`, `all`, `wl`), rating categories |
+| config.js | API keys/defaults, localStorage helpers, shared state (`lib`, `all`, `wl`), rating categories, `uniq()` de-duplication |
 | auth.js | Supabase auth: sessions, roles, sign-in / sign-up / sign-out |
 | db.js | Your library in Supabase (save / delete / load) |
 | api.js | TMDB and OMDb requests |
@@ -25,8 +26,8 @@ so **order matters** – a file can only run code at load time that depends on f
 | public.js | Public screen (Filters: Type + Event, Picture/List toggle) + small shared helpers |
 | auth-modal.js | Log in / create account pop-up |
 | account.js | Account page (change username / PIN) |
-| users.js | Users list and other members' libraries |
-| admin.js | Admin approvals and member removal |
+| users.js | Users as member cards (with watched counts) and other members' libraries |
+| admin.js | Admin member cards: approve, reject and remove |
 | router.js | `render()` – picks which screen to show; main click handler |
 | modal.js | Film/actor pop-up shell, history and scroll locking |
 | watch-now.js | "Watch Now" site list |

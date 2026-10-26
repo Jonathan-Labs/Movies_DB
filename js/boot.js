@@ -12,7 +12,7 @@ async function reloadAll(){
   if(isAdmin()){try{const r=await sbf('/rest/v1/profiles?approved=eq.false&select=id');if(r.ok)PENDING=(await r.json()).length}catch{}}
 }
 async function afterAuth(go){
-  USERS=null;await reloadAll();
+  USERS=null;$('#main').innerHTML=loadingHTML('Loading your library…');await reloadAll();
   view=go==='account'&&PROF?'account':canUse()?(go&&go!=='public'?go:'dashboard'):(go==='public'||!PROF?'public':'account');
   render();window.scrollTo(0,0);
 }

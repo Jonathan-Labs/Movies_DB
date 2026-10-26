@@ -136,7 +136,7 @@ function drawPlay(){
   const q=QS.q,M=MODES[QS.mode],el=$('#main'),done=QS.answered;
   const info=QS.mode==='hol'?`Streak ${QS.streak}`:`Round ${QS.round}/${ROUNDS} · ${QS.score} pts${QS.streak>1?` · streak ${QS.streak}`:''}`;
   let h=`<div class="qbar"><b class="qt">${qIcon(QS.mode,'sm')}${M.name}</b><span>${info}</span><button class="btn ghost" data-qz="quit:">Quit</button></div>`;
-  if(!q){el.innerHTML=h+`<p class="empty">${QS.fail?'Could not build a question. Check your connection and try again.':'Loading…'}</p>`;return}
+  if(!q){el.innerHTML=h+(QS.fail?'<p class="empty">Could not build a question. Check your connection and try again.</p>':loadingHTML('Building a question…'));return}
   if(QS.mode==='hol'){
     const lab=q.crit==='imdb'?'IMDb rating':'your rating',fv=v=>q.crit==='imdb'?v.toFixed(1):'★ '+v.toFixed(1);
     const card=(m,val)=>`<div class="qc">${m.poster?`<img src="${m.poster}" alt="">`:'<div class="ph">No poster</div>'}<b>${esc(m.title)}</b><p class="meta">${esc(m.year||'')}</p><div class="qval">${val}</div></div>`;

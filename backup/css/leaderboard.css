@@ -10,6 +10,5 @@
 .lb b{flex:none}
 
 /* view toggle (list / pictures) */
-.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}
-.hrow h2{margin:0}
+
 .grid.actors .poster img{object-position:center top}

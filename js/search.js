@@ -16,11 +16,11 @@ function pinned(q,type){
 }
 function prioritize(items,pin){
   const ids=new Set(pin.map(m=>m.id)),rest=items.filter(m=>!ids.has(m.id)),w=m=>!m.person&&inLib(m.id);
-  return[...pin,...rest.filter(w),...rest.filter(m=>!w(m))];
+  return uniq([...pin,...rest.filter(w),...rest.filter(m=>!w(m))]);
 }
 async function runSearch(){
   const tok=SQ.tok=(SQ.tok||0)+1;
-  view='search';nav();$('#main').innerHTML='<p class="empty">Searching…</p>';
+  view='search';nav();$('#main').innerHTML=loadingHTML('Searching…');
   try{
     if(SQ.type==='keyword')await runKeyword();
     else{
@@ -69,7 +69,7 @@ document.addEventListener('click',e=>{
 });
 function kwBlock(d){
   const k=d.kw||{label:SQ.q,ids:[],matches:[]};
-  const rel=d.rel?(d.rel.length?kwChips(d.rel):'<span class="meta">None found</span>'):'<span class="meta">Loading…</span>';
+  const rel=d.rel?(d.rel.length?kwChips(d.rel):'<span class="meta">None found</span>'):'<span class="meta">${spinHTML()}Loading…</span>';
   return`<p class="meta">Titles tagged <b>${esc(k.label)}</b></p>
    ${k.matches.length?`<details class="kwd"><summary>Matching keywords (${k.matches.length})</summary><div class="chips">${kwChips(k.matches,k.ids)}</div></details>`:(SQ.kw?'':'<p class="meta">No keywords match that search. Try a shorter or different word.</p>')}
    <details class="kwd"><summary>Related keywords</summary><div class="chips" id="kwr">${rel}</div></details>`;

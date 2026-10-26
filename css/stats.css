@@ -12,3 +12,16 @@
 .bn{text-align:right;color:var(--mute);font-size:.9rem}
 @media(max-width:480px){.br{grid-template-columns:90px 1fr 28px;gap:8px}}
 .stat .tl{display:block;margin-top:8px}
+
+/* Statistics blocks: stacked on small screens, paired side by side on PC */
+.sbox{min-width:0}
+.sbox>.hh{margin-top:28px}
+@media(min-width:1024px){
+  .srow{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;align-items:start}
+  /* top row: both card groups share one height, so the cards match; the counts get big numbers to fill the space */
+  .srow.tops{align-items:stretch}
+  .srow.tops .sbox{display:flex;flex-direction:column}
+  .srow.tops .stats{flex:1}
+  .srow.tops .stat{display:flex;flex-direction:column;justify-content:center}
+  .srow.tops .sbox:first-child .stat b{font-size:2.8rem;line-height:1.1}
+}
