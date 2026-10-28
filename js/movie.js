@@ -4,10 +4,12 @@ async function openMovie(id){
   open(loadingHTML());
   let d,saved=all.find(x=>x.id===id);
   const tv=id<0;
-  try{d=await tmdb(tv?`/tv/${-id}?append_to_response=aggregate_credits,external_ids,images,keywords,watch/providers&include_image_language=en,null`:`/movie/${id}?append_to_response=credits,external_ids,images,keywords,watch/providers&include_image_language=en,null`)}
+  try{d=await tmdb(tv?`/tv/${-id}?append_to_response=aggregate_credits,external_ids,images,keywords,videos,watch/providers&include_image_language=en,null&include_video_language=en,null`:`/movie/${id}?append_to_response=credits,external_ids,images,keywords,videos,watch/providers&include_image_language=en,null&include_video_language=en,null`)}
   catch(err){open(`<div class="msg">${esc(err.message)}</div>`);return}
   const imdbId=d.external_ids?.imdb_id||null;
   const shots=(d.images?.backdrops||[]).slice(0,16).map(x=>x.file_path);
+  const trailer=pickTrailer(d);   // null when TMDB has no YouTube trailer/teaser for this title
+  const trlBtn=`<button type="button" class="trl${trailer?'':' off'}" id="trl"${trailer?'':' aria-disabled="true"'} title="${trailer?'Play trailer':'No trailer available'}">▶ Trailer</button>`;
   const kws=(tv?d.keywords?.results:d.keywords?.keywords)||[];
   const kwH=kws.length?`<details class="kwd mkw"><summary>Keywords (${kws.length})</summary><div class="chips">${kws.map(k=>`<button class="chip" data-kwgo="${k.id}" data-kn="${esc(k.name)}">${esc(k.name)}</button>`).join('')}</div></details>`:'';
   const cr=tv?d.aggregate_credits:d.credits;
@@ -34,7 +36,7 @@ async function openMovie(id){
       ${m.tmdb_rating?`<span class="badge">TMDB <span class="score">${m.tmdb_rating}</span></span>`:''}
       ${m.director?`<span class="badge">${tv?'Created by':'Dir.'} ${esc(m.director)}</span>`:''}
       ${imdbId?`<a class="badge" style="color:var(--hot)" target="_blank" rel="noopener" href="https://www.imdb.com/title/${imdbId}/">View on IMDb</a>`:''}</div>
-      ${viewedLine(id)}<details class="wnow" id="wn"><summary>▶ Watch Now</summary><div class="wbody" id="wnb">${wnBody(m)}</div></details>
+      ${viewedLine(id)}<details class="wnow" id="wn"><summary><span class="wbt">▶ Watch Now</span>${trlBtn}</summary><div class="wbody" id="wnb">${wnBody(m)}</div></details>
       <p class="clip">${esc(m.overview)}</p><button class="vm">View more</button>
       <details class="kwd mkw" id="maw"><summary>Awards</summary><div class="v">${awH}</div></details>${kwH}</div></div>
     ${shots.length?`<div class="strip wide">${shots.map(f=>`<img class="zm" loading="lazy" src="${IMG}w780${f}" data-full="${IMG}w1280${f}" alt="">`).join('')}</div>`:''}<h3>Cast</h3><div class="cast">${m.cast.map(a=>`<button data-a="${a.id}">${a.photo?`<img src="${a.photo}" alt="">`:'<div class="ph"></div>'}<span class="nm">${esc(a.name)}</span></button>`).join('')}</div>
@@ -44,6 +46,7 @@ async function openMovie(id){
     $('#sheet').querySelectorAll('.stars button').forEach(b=>b.onclick=()=>{r[b.dataset.k]=+b.dataset.n;paint()});
     $('#sheet').querySelectorAll('.cast button').forEach(b=>b.onclick=()=>openActor(+b.dataset.a));
     wireClips($('#sheet'));
+    $('#trl').onclick=e=>{e.preventDefault();e.stopPropagation();if(trailer)playTrailer(trailer.key,m.title)};   // preventDefault: do not toggle the Watch Now list
     if($('#add'))$('#add').onclick=async()=>{
       if(CATS.some(([k])=>!r[k])){alert('Rate all four categories first.');return}
       m.ratings=r;try{await dbSave(m);saved=m;paint()}catch(e){alert(e.message)}};

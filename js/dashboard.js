@@ -9,7 +9,7 @@ function heroGo(key,n){
 function heroBox(key,title,n,fn){
   const h=H[key]=H[key]||{i:0,t:0};h.i%=n;
   const range=Array.from({length:n},(_,i)=>i);
-  return`<section class="hsec"><h2 class="hh">${title}</h2><div class="hero" id="h_${key}">${range.map(i=>fn(i,i===h.i?' on':'')).join('')}<button class="arrow l" aria-label="Previous">‹</button><button class="arrow r" aria-label="Next">›</button><div class="dots">${range.map(i=>`<button aria-label="Show slide ${i+1}" class="${i===h.i?'on':''}"></button>`).join('')}</div></div></section>`;
+  return`<section class="hsec">${title?`<h2 class="hh">${title}</h2>`:''}<div class="hero" id="h_${key}">${range.map(i=>fn(i,i===h.i?' on':'')).join('')}<button class="arrow l" aria-label="Previous">‹</button><button class="arrow r" aria-label="Next">›</button><div class="dots">${range.map(i=>`<button aria-label="Show slide ${i+1}" class="${i===h.i?'on':''}"></button>`).join('')}</div></div></section>`;
 }
 function heroWire(key,n,ms){
   const box=$('#h_'+key),h=H[key];

@@ -1,6 +1,10 @@
 /* "Watch Now" site list inside the film pop-up */
 .wnow{margin:12px 0}
-.wnow>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;background:var(--hot);color:#fff;font-weight:600;padding:10px 20px;border-radius:10px}
+.wnow>summary{list-style:none;display:inline-flex;align-items:center;gap:10px}
+.wbt,.trl{display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;padding:10px 20px;border:0;border-radius:10px;cursor:pointer}
+.wbt{background:var(--hot)}
+.trl{background:#e5484d}
+.trl.off{opacity:.4;cursor:not-allowed}
 .wnow>summary::-webkit-details-marker{display:none}
 .wbody{margin-top:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:10px}
 .wrow{display:flex;align-items:center;gap:4px;border-bottom:1px solid var(--line)}

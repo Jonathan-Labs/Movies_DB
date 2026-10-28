@@ -12,8 +12,8 @@
 .qstage h3{margin:0}
 .qposter{width:min(240px,64vw);aspect-ratio:2/3;object-fit:cover;border-radius:12px;background:var(--card)}
 .qopts,.qhl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:520px){.qopts{grid-template-columns:1fr}}
-.qo{display:flex;align-items:center;gap:10px;text-align:left;padding:12px 14px;border:1px solid var(--line);background:var(--card);border-radius:10px;color:var(--ink)}
+@media(max-width:520px){.qo{padding:10px;gap:8px;font-size:.92rem}.qav img,.qav i{width:32px;height:32px}}
+.qo{min-width:0;overflow-wrap:anywhere;display:flex;align-items:center;gap:10px;text-align:left;padding:12px 14px;border:1px solid var(--line);background:var(--card);border-radius:10px;color:var(--ink)}
 .qhl .qo{justify-content:center;font-weight:600}
 .qo:not(:disabled):hover{border-color:var(--hot)}
 .qo:disabled{cursor:default}
@@ -43,3 +43,17 @@
 .qi.sm svg{width:18px;height:18px}
 .qi.lg{width:76px;height:76px;border-radius:20px;margin:0 auto 10px}
 .qi.lg svg{width:40px;height:40px}
+/* question + answers: stacked on small screens; on PC the question is on the left and the answers on the right */
+@media(min-width:1024px){
+  .qplay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+  .qq .qstage{margin-top:0}
+  .qa .qfb{margin-top:14px}
+}
+/* the question and its answers sit together in one card */
+.qplay{padding:18px;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.qplay .qo,.qplay .qc{background:var(--bg)}
+.qplay .qo.ok{background:rgba(62,207,142,.14)}
+.qplay .qo.bad{background:rgba(255,107,129,.14)}
+@media(max-width:520px){.qplay{padding:14px}}
+/* mobile: the game name in the top bar is hidden (still read by screen readers); only its icon shows */
+@media(max-width:560px){.qn{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}

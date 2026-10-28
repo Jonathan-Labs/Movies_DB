@@ -28,3 +28,13 @@
   .duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
   .duo .hero{height:520px}
 }
+
+/* Public screen: slideshow of the top titles beside the list on PC; stacked (slideshow first) on small screens */
+.pub .hsec{margin-top:0}
+.pubhero:empty{display:none}
+.pubhero{margin-bottom:18px}
+@media(min-width:1024px){
+  .pub{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;align-items:start}
+  .pubhero{position:sticky;top:84px;margin-bottom:0}
+  .pub .hero{height:560px}
+}

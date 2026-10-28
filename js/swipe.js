@@ -24,6 +24,6 @@ onSwipe($('#modal'),navStep,'.strip,.cast');
 onSwipe(lb,lbStep,null);
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
-  const d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!d)return;
+  const d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(!d||!tv.hidden)return;
   if(!lb.hidden)lbStep(d);else if($('#modal').classList.contains('open'))navStep(d);
 });

@@ -25,9 +25,9 @@ function unlockPage(){
 function doClose(){$('#modal').classList.remove('open');unlockPage();render()}
 function closeM(){if(depth>0)history.go(-depth);else doClose()}
 window.addEventListener('popstate',e=>{
-  lb.hidden=true;const st=e.state;
+  lb.hidden=true;closeTrailer();const st=e.state;
   if(st&&st.k){depth=st.d;MODE='pop';st.k==='m'?openMovie(st.id):openActor(st.id)}
   else{depth=0;doClose()}
 });
 $('#modal').onclick=e=>{if(e.target.id==='modal')closeM()};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lb.hidden){if(!am.hidden)closeAuth();else closeM()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!tv.hidden){closeTrailer();return}if(lb.hidden){if(!am.hidden)closeAuth();else closeM()}}});

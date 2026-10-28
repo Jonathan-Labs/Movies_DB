@@ -2,7 +2,7 @@
 function normS(r,t){
   const mt=r.media_type||t;
   if(mt==='person')return{id:r.id,title:r.name,person:1,photo:r.profile_path?IMG+'w185'+r.profile_path:'',dept:r.known_for_department||'Acting'};
-  if(mt==='movie'||mt==='tv')return{...norm({...r,media_type:mt}),st:1,year:(r.release_date||r.first_air_date||'').slice(0,4),tmdb_rating:r.vote_average?+r.vote_average.toFixed(1):null};
+  if(mt==='movie'||mt==='tv')return{...norm({...r,media_type:mt}),st:1,year:(r.release_date||r.first_air_date||'').slice(0,4),tmdb_rating:r.vote_average?+r.vote_average.toFixed(1):null,overview:r.overview||''};
   return null;
 }
 const fold=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');

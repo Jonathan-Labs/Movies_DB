@@ -135,25 +135,27 @@ function endGame(){
 function drawPlay(){
   const q=QS.q,M=MODES[QS.mode],el=$('#main'),done=QS.answered;
   const info=QS.mode==='hol'?`Streak ${QS.streak}`:`Round ${QS.round}/${ROUNDS} · ${QS.score} pts${QS.streak>1?` · streak ${QS.streak}`:''}`;
-  let h=`<div class="qbar"><b class="qt">${qIcon(QS.mode,'sm')}${M.name}</b><span>${info}</span><button class="btn ghost" data-qz="quit:">Quit</button></div>`;
+  let h=`<div class="qbar"><b class="qt" title="${M.name}">${qIcon(QS.mode,'sm')}<span class="qn">${M.name}</span></b><span>${info}</span><button class="btn ghost" data-qz="quit:">Quit</button></div>`;
   if(!q){el.innerHTML=h+(QS.fail?'<p class="empty">Could not build a question. Check your connection and try again.</p>':loadingHTML('Building a question…'));return}
   if(QS.mode==='hol'){
     const lab=q.crit==='imdb'?'IMDb rating':'your rating',fv=v=>q.crit==='imdb'?v.toFixed(1):'★ '+v.toFixed(1);
     const card=(m,val)=>`<div class="qc">${m.poster?`<img src="${m.poster}" alt="">`:'<div class="ph">No poster</div>'}<b>${esc(m.title)}</b><p class="meta">${esc(m.year||'')}</p><div class="qval">${val}</div></div>`;
     const cls=d=>done?(QS.pick===d?(QS.last.ok?' ok':' bad'):''):'';
-    h+=`<p class="meta">Is the ${lab} of the right title higher or lower than the left one?</p><div class="qpair">${card(q.A,fv(q.vA))}${card(q.B,done?fv(q.vB):'?')}</div>
-     <div class="qhl"><button class="qo${cls('h')}" data-qz="hl:h"${done?' disabled':''}>▲ Higher</button><button class="qo${cls('l')}" data-qz="hl:l"${done?' disabled':''}>▼ Lower</button></div>`;
-    if(done)h+=`<div class="qfb ${QS.last.ok?'ok':'bad'}">${QS.last.ok?(QS.last.tie?'A tie, so that counts. ':'Correct! ')+`Streak ${QS.streak}.`:'Not quite.'}</div><button class="btn" data-qz="next:">${QS.last.ok?'Next':'See results'}</button>`;
-    el.innerHTML=h;return;
+    const qq=`<p class="meta">Is the ${lab} of the right title higher or lower than the left one?</p><div class="qpair">${card(q.A,fv(q.vA))}${card(q.B,done?fv(q.vB):'?')}</div>`;
+    let qa=`<div class="qhl"><button class="qo${cls('h')}" data-qz="hl:h"${done?' disabled':''}>▲ Higher</button><button class="qo${cls('l')}" data-qz="hl:l"${done?' disabled':''}>▼ Lower</button></div>`;
+    if(done)qa+=`<div class="qfb ${QS.last.ok?'ok':'bad'}">${QS.last.ok?(QS.last.tie?'A tie, so that counts. ':'Correct! ')+`Streak ${QS.streak}.`:'Not quite.'}</div><button class="btn" data-qz="next:">${QS.last.ok?'Next':'See results'}</button>`;
+    el.innerHTML=h+`<div class="qplay"><div class="qq">${qq}</div><div class="qa">${qa}</div></div>`;return;
   }
-  if(QS.mode==='blurry')h+=`<div class="qstage"><div class="qwrap"><img id="qimg" class="qposter" src="${q.img}" style="filter:${done?'none':'blur(26px)'}" alt=""></div><p class="meta" id="qpts">${done?'':'100 points'}</p></div>`;
-  if(QS.mode==='who')h+=q.kind==='a2f'
+  let qq='';
+  if(QS.mode==='blurry')qq=`<div class="qstage"><div class="qwrap"><img id="qimg" class="qposter" src="${q.img}" style="filter:${done?'none':'blur(26px)'}" alt=""></div><p class="meta" id="qpts">${done?'':'100 points'}</p></div>`;
+  if(QS.mode==='who')qq=q.kind==='a2f'
     ?`<div class="qstage">${q.actor.photo?`<img class="qposter" style="width:min(150px,42vw)" src="${q.actor.photo.replace('/w185/','/h632/')}" alt="">`:''}<h3>Which of these films was <b>${esc(q.actor.name)}</b> in?</h3></div>`
     :`<div class="qstage">${q.film.poster?`<img class="qposter" style="width:min(150px,42vw)" src="${q.film.poster}" alt="">`:''}<h3>Who was in <b>${esc(q.film.title)}</b>${q.film.year?` (${esc(q.film.year)})`:''}?</h3></div>`;
-  if(QS.mode==='kw')h+=`<div class="qstage"><p class="meta">Which title do these keywords belong to?</p><div class="qclues">${q.clues.slice(0,q.shown).map(k=>`<span class="badge">${esc(k)}</span>`).join('')}</div>${!done&&q.shown<q.clues.length?'<button class="btn ghost" data-qz="clue:">Show another clue (−20 pts)</button>':''}</div>`;
-  h+=`<div class="qopts">${q.opts.map((o,i)=>`<button class="qo${done?(o.ok?' ok':(QS.pick===i?' bad':'')):''}" data-qz="ans:${i}"${done?' disabled':''}>${o.html}</button>`).join('')}</div>`;
-  if(done)h+=`<div class="qfb ${QS.last.ok?'ok':'bad'}">${QS.last.ok?`Correct! +${QS.last.pts} points`:`Not quite. The answer was <b>${esc(q.answer)}</b>.`}</div><button class="btn" data-qz="next:">${QS.round>=ROUNDS?'See results':'Next'}</button>`;
-  el.innerHTML=h;
+  if(QS.mode==='kw')qq=`<div class="qstage"><p class="meta">Which title do these keywords belong to?</p><div class="qclues">${q.clues.slice(0,q.shown).map(k=>`<span class="badge">${esc(k)}</span>`).join('')}</div>${!done&&q.shown<q.clues.length?'<button class="btn ghost" data-qz="clue:">Show another clue (−20 pts)</button>':''}</div>`;
+  let qa=`<div class="qopts">${q.opts.map((o,i)=>`<button class="qo${done?(o.ok?' ok':(QS.pick===i?' bad':'')):''}" data-qz="ans:${i}"${done?' disabled':''}>${o.html}</button>`).join('')}</div>`;
+  if(done)qa+=`<div class="qfb ${QS.last.ok?'ok':'bad'}">${QS.last.ok?`Correct! +${QS.last.pts} points`:`Not quite. The answer was <b>${esc(q.answer)}</b>.`}</div><button class="btn" data-qz="next:">${QS.round>=ROUNDS?'See results':'Next'}</button>`;
+  /* on PC the question sits on the left and the answers on the right, so nothing needs scrolling */
+  el.innerHTML=h+`<div class="qplay"><div class="qq">${qq}</div><div class="qa">${qa}</div></div>`;
 }
 function drawEnd(){
   const m=QS.mode,M=MODES[m],hol=m==='hol',sc=hol?QS.streak:QS.score,b=QZ.best[m];
