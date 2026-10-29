@@ -58,14 +58,31 @@ async function publicView(){
   if(top.length){
     $('#pbhero').innerHTML=heroBox('p','',top.length,pubSlide(top));
     heroWire('p',top.length,5500);
+    pubEnrich(top);
   }
+}
+/* IMDb rating and genres are not in TMDB's list results, so they are fetched once per slide title and cached */
+const PBX={};
+const pubBadges=m=>{const x=PBX[m.id]||{};return`${x.imdb?`<span class="badge">IMDb <span class="score">${esc(x.imdb)}</span></span>`:''}${m.tmdb_rating?`<span class="badge">TMDB <span class="score">${m.tmdb_rating}</span></span>`:''}${x.genres?`<span class="badge">${esc(x.genres)}</span>`:''}`};
+async function pubEnrich(items){
+  const paint=m=>{const b=document.querySelector(`.pubhero [data-pb="${m.id}"]`);if(b)b.innerHTML=pubBadges(m)};
+  await Promise.all(items.map(async m=>{
+    if(PBX[m.id]&&PBX[m.id].done)return;
+    try{
+      const d=await tmdb(m.id<0?`/tv/${-m.id}?append_to_response=external_ids`:`/movie/${m.id}?append_to_response=external_ids`);
+      const x=PBX[m.id]={genres:(d.genres||[]).map(g=>g.name).join(', '),imdb:null,done:false};
+      paint(m);   // genres appear first, the IMDb rating follows
+      const r=await imdbRating(d.external_ids?.imdb_id);
+      x.imdb=r;x.done=true;paint(m);
+    }catch{}
+  }));
 }
 /* one slide of the Public slideshow (same look as the personal dashboard's, with TMDB info instead of your own rating) */
 const pubSlide=items=>(i,on)=>{
   const m=items[i];
   return`<div class="slide${on}">${m.poster_path?`<img class="full" src="${IMG}w780${m.poster_path}" alt="">`:''}<div class="shade"></div>
     <div class="txt"><p class="meta">#${i+1} · ${m.id<0?'Series':'Movie'}${m.year?' · '+esc(m.year):''}</p><h2>${esc(m.title)}</h2>
-    <div class="badges">${m.tmdb_rating?`<span class="badge">TMDB <span class="score">${m.tmdb_rating}</span></span>`:''}</div>
+    <div class="badges" data-pb="${m.id}">${pubBadges(m)}</div>
     ${m.overview?`<p class="ov">${esc(m.overview)}</p>`:''}
     <button class="btn" data-m="${m.id}">View details</button></div></div>`;
 };

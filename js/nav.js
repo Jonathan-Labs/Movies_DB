@@ -22,7 +22,7 @@ function nav(){
   const sv='viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
   const hd=document.querySelector('header');hd.classList.toggle('few',tabs().length<=3);hd.classList.toggle('in',!!PROF);
   $('#hacct').innerHTML=PROF
-    ?`<button class="hu" data-hv title="Your account">${avatar(PROF.username)}<span class="hn">@${esc(PROF.username)}</span></button><button class="btn ghost hb" data-hout aria-label="Log out" title="Log out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="lt">Log out</span></button>`
+    ?`<button class="hu" data-hv title="Your account">${avatar(PROF.username)}<span class="hn">@${esc(PROF.username)}</span>${ACCREQ?`<span class="dot" title="${ACCREQ} library access request${ACCREQ===1?'':'s'}">${ACCREQ}</span>`:''}</button><button class="btn ghost hb" data-hout aria-label="Log out" title="Log out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="lt">Log out</span></button>`
     :'<button class="btn hb" data-login>Log in</button>';
   $('#nav').innerHTML=tabs().map(([k,l])=>`<button class="${view===k||(k==='users'&&view==='ulib')?'on':''}" data-v="${k}" aria-label="${l}" title="${l}"><svg ${sv}>${IC[k==='account'&&!PROF?'login':k]}</svg>${k==='admin'&&PENDING?`<span class="dot">${PENDING}</span>`:''}</button>`).join('');
 }

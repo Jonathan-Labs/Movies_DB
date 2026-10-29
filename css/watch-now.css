@@ -3,7 +3,8 @@
 .wnow>summary{list-style:none;display:inline-flex;align-items:center;gap:10px}
 .wbt,.trl{display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;padding:10px 20px;border:0;border-radius:10px;cursor:pointer}
 .wbt{background:var(--hot)}
-.trl{background:#e5484d}
+.trl{background:transparent;border:2px solid #fff;padding:8px 18px}   /* hollow, white outline (same size as Watch Now) */
+.trl:not(.off):hover{background:rgba(255,255,255,.14)}
 .trl.off{opacity:.4;cursor:not-allowed}
 .wnow>summary::-webkit-details-marker{display:none}
 .wbody{margin-top:10px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:10px}

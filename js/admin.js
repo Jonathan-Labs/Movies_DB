@@ -22,6 +22,7 @@ async function authClick(b){
   else if(a==='signout')await doSignOut();
   else if(a==='refresh')await afterAuth('account');
   else if(a==='viewlib')openUserLib(v,name);
+  else if(/^(reqacc|cancelacc|accok|accno|accrev)$/.test(a))await accessClick(a,v);
   else if(a==='back'){view='users';render()}
   else if(a==='approve'){
     const r=await sbf(`/rest/v1/profiles?id=eq.${v}`,{method:'PATCH',body:JSON.stringify({approved:true})});

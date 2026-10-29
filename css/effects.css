@@ -1,5 +1,6 @@
 /* Glow and frosted-glass effects layered on top of everything else */
-.score,.sr,.stars button.f,.stat b,.lb b{text-shadow:0 0 10px var(--glow)}
+.score,.sr,.stat b,.lb b{text-shadow:0 0 10px var(--glow)}
+.stars button.f svg{filter:drop-shadow(0 0 5px var(--glow))}
 .dots button.on{box-shadow:0 0 10px var(--glow)}
 .hero{box-shadow:0 0 24px rgba(176,54,173,.25)}
 .slide .txt{text-shadow:0 1px 8px rgba(0,0,0,.7)}

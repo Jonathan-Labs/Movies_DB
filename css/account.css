@@ -28,3 +28,5 @@ button.ucard:hover{border-color:var(--hot)}
 .sbar svg{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--mute);pointer-events:none}
 .sbar input{padding:8px 34px 8px 12px;font-size:.9rem}
 .sbar input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
+/* Account page: library access section */
+#accs{max-width:760px;margin:6px auto 0;text-align:left}

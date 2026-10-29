@@ -8,6 +8,7 @@ async function reloadAll(){
   all=[];
   if(canUse()){try{all=await dbAll()}catch(e){console.error(e)}}
   split();await sp;
+  ACCREQ=0;if(canUse())await accessLoad();
   PENDING=0;
   if(isAdmin()){try{const r=await sbf('/rest/v1/profiles?approved=eq.false&select=id');if(r.ok)PENDING=(await r.json()).length}catch{}}
 }

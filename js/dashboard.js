@@ -28,7 +28,7 @@ function dash(){
   const acts=Object.values(ac).filter(a=>a.photo).sort((x,y)=>y.n-x.n||x.name.localeCompare(y.name)).slice(0,10);
   const stat=(v,l)=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`;
   const SP='M12 1.7l3.1 6.6 7.2.9-5.3 5 1.4 7.2L12 17.8l-6.4 3.6L7 14.2 1.7 9.2l7.2-.9z';
-  const star=(n,u)=>[0,1,2,3,4].map(i=>{const f=Math.round(Math.max(0,Math.min(1,n-i))*100);return `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="g${u}_${i}"><stop offset="${f}%" style="stop-color:var(--hot)"/><stop offset="${f}%" style="stop-color:#4a4a4a"/></linearGradient></defs><path d="${SP}" fill="url(#g${u}_${i})"/></svg>`}).join('');
+  const star=(n,u)=>[0,1,2,3,4].map(i=>{const f=Math.round(Math.max(0,Math.min(1,n-i))*100);return `<svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="g${u}_${i}"><stop offset="${f}%" style="stop-color:var(--hot)"/><stop offset="${f}%" style="stop-color:var(--off)"/></linearGradient></defs><path d="${SP}" fill="url(#g${u}_${i})"/></svg>`}).join('');
   const titleSlide=(key,items)=>(i,on)=>{const m=items[i],a=avgOf(m);return`<div class="slide${on}">${m.poster?`<img class="full" src="${m.poster.replace('/w342/','/w780/')}" alt="">`:''}<div class="shade"></div>
     <div class="txt"><p class="meta">#${i+1} · ${m.id<0?'Series':'Movie'} · ${m.year}</p><h2>${esc(m.title)}</h2>
     <p><span class="sr">${star(a,key+i)}</span> <span class="score">${a}</span> <span class="meta">your rating</span></p>

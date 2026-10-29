@@ -21,7 +21,7 @@ async function usersView(){
   $('#urs').onclick=()=>{USORT={...USORT0};el.querySelectorAll('[data-uf]').forEach(x=>x.value=USORT[x.dataset.uf]);drawUsers()};
   if(!USERS){
     let r=await sbf('/rest/v1/profiles?approved=eq.true&select=id,username,role,created_at&order=username.asc');
-    const [r2,counts]=await Promise.all([r.ok?r:sbf('/rest/v1/profiles?approved=eq.true&select=id,username,role&order=username.asc'),watchedCounts()]);   // falls back if the join date is not readable
+    const [r2,counts]=await Promise.all([r.ok?r:sbf('/rest/v1/profiles?approved=eq.true&select=id,username,role&order=username.asc'),watchedCounts(),accessLoad()]);   // falls back if the join date is not readable
     USERS=r2.ok?(await r2.json()).map(u=>({...u,n:counts?(counts[u.id]||0):null})):[];
   }
   if(view==='users')drawUsers();
@@ -29,7 +29,11 @@ async function usersView(){
 /* How many titles each member has fully rated (= "watched"). Fetched in pages of 1000 because Supabase returns at most 1000 rows per request. */
 async function watchedCounts(){
   const out={};
-  try{
+  try{   // preferred: a database function that only returns counts (works even though other libraries are locked)
+    const r=await sbf('/rest/v1/rpc/library_counts',{method:'POST',body:'{}'});
+    if(r.ok){(await r.json()).forEach(x=>out[x.user_id]=+x.n);return out}
+  }catch{}
+  try{   // fallback for databases without the function: count the rows we are allowed to read (1000 per request)
     for(let off=0;;off+=1000){
       const r=await sbf(`/rest/v1/movies?select=user_id,ratings&order=user_id.asc,id.asc&limit=1000&offset=${off}`);
       if(!r.ok)return null;
@@ -47,10 +51,24 @@ function drawUsers(){
   const by={az,joined:(a,b)=>String(a.created_at||'').localeCompare(String(b.created_at||''))||az(a,b),watched:(a,b)=>(a.n??-1)-(b.n??-1)||az(a,b)}[USORT.sort]||az;
   list.sort(by);if(USORT.dir==='desc')list.reverse();
   const nf=Object.keys(USORT0).filter(k=>USORT[k]!==USORT0[k]).length,fb=$('#fb');if(fb){fb.textContent=nf;fb.hidden=!nf}
-  box.innerHTML=list.length?`<div class="ucards">${list.map(u=>`<button class="ucard" data-au="viewlib:${u.id}" data-name="${esc(u.username)}">${avatar(u.username,'lg')}<span class="un">@${esc(u.username)}</span><span class="ubot"><span class="ufoot"><b>${u.n??'–'}</b> film${u.n===1?'':'s'} watched</span></span></button>`).join('')}</div>`:'<p class="meta">No members found.</p>';
+  const cnt=u=>`<span class="ufoot"><b>${u.n??'–'}</b> film${u.n===1?'':'s'} watched</span>`;
+  /* only members who approved your request open as a link; everyone else shows what you can do next */
+  const card=u=>{
+    const st=ACC.ok?ACC.mine[u.id]:null,head=`${avatar(u.username,'lg')}<span class="un">@${esc(u.username)}</span>`;
+    if(st==='approved')return`<button class="ucard" data-au="viewlib:${u.id}" data-name="${esc(u.username)}">${head}<span class="ubot">${cnt(u)}<span class="utag">View library</span></span></button>`;
+    const act=!ACC.ok?'<span class="meta">Not available yet</span>'
+      :st==='pending'?`<span class="utag">Request sent</span><button class="btn ghost" data-au="cancelacc:${u.id}">Cancel</button>`
+      :st==='denied'?`<span class="utag">Declined</span><button class="btn ghost" data-au="reqacc:${u.id}">Request again</button>`
+      :`<button class="btn" data-au="reqacc:${u.id}">Request access</button>`;
+    return`<div class="ucard">${head}<span class="ubot">${cnt(u)}<span class="abt">${act}</span></span></div>`;
+  };
+  const note=ACC.ok?'':'<div class="msg">Library requests are not set up yet, so other libraries cannot be opened. The admin needs to run <b>supabase-library-access.sql</b> in Supabase.</div>';
+  box.innerHTML=note+(list.length?`<div class="ucards">${list.map(card).join('')}</div>`:'<p class="meta">No members found.</p>');
 }
 async function openUserLib(id,name){
   $('#main').innerHTML=loadingHTML();
+  await accessLoad();   // re-check: the owner may have removed access since the list was drawn
+  if(!ACC.ok||ACC.mine[id]!=='approved'){alert(`You need @${name}'s permission to see their library. Send a request first.`);view='users';render();return}
   const r=await sbf(`/rest/v1/movies?user_id=eq.${id}&select=*&order=created_at.desc`);
   const rows=r.ok?(await r.json()).filter(isW):[];
   VU={id,name,rows};VIEWU=VU;libPage=1;view='ulib';render();window.scrollTo(0,0);

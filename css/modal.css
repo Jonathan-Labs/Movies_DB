@@ -11,7 +11,8 @@
 .cast img,.cast .ph{width:72px;height:72px;border-radius:50%;margin:0 auto 4px;aspect-ratio:1}
 .rate{background:var(--card);border-radius:10px;padding:14px;margin-top:16px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;flex-wrap:wrap}
-.stars button{background:none;border:0;font-size:1.7rem;color:#444;padding:0 2px}
+.stars button{background:none;border:0;color:var(--off);padding:0 2px;line-height:0}
+.stars button svg{display:block;width:1.7rem;height:1.7rem;fill:currentColor;stroke:none}
 .stars button.f{color:var(--hot)}
 .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .cast img,.lb img{object-fit:cover;object-position:center top;flex:none}

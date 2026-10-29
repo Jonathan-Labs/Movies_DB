@@ -1,4 +1,17 @@
 /* Film / series detail pop-up */
+/* rating star: solid when filled; in light mode an empty one is drawn as an outline (see css/theme-light.css) */
+const RSTAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>';
+/* country / language names from the TMDB record we already have (no extra request) */
+function regionName(c){try{return new Intl.DisplayNames(['en'],{type:'region'}).of(c)||c}catch{return c}}
+function langName(c){try{return new Intl.DisplayNames(['en'],{type:'language'}).of(c)||c}catch{return c}}
+function countryLang(d,tv){
+  const codes=tv?(d.origin_country?.length?d.origin_country:(d.production_countries||[]).map(c=>c.iso_3166_1)):(d.production_countries||[]).map(c=>c.iso_3166_1);
+  const countries=[...new Set(codes.filter(Boolean).map(regionName))];
+  const ol=d.original_language,spoken=(d.spoken_languages||[]).map(l=>l.english_name||langName(l.iso_639_1)).filter(Boolean);
+  const first=ol&&ol!=='xx'?(langName(ol)):'';
+  const langs=[...new Set([first,...spoken].filter(Boolean))];   // original language first
+  return{countries,langs};
+}
 async function openMovie(id){
   track('m',id);
   open(loadingHTML());
@@ -27,11 +40,14 @@ async function openMovie(id){
   const pn=wpv?[...new Set([...(wpv.flatrate||[]),...(wpv.free||[]),...(wpv.ads||[])].map(x=>x.provider_name))].slice(0,6):[];
   WM=m;WF=null;
   WP=wpv?`<p class="meta">Official streaming in ${WREG}: ${pn.length?esc(pn.join(', ')):'rent or buy only'} · <a href="${esc(wpv.link)}" target="_blank" rel="noopener noreferrer" style="color:var(--hot)">see options</a> (data by JustWatch)</p>`:'';
+  const cl=countryLang(d,tv);
+  const factsH=(cl.countries.length||cl.langs.length)?`<div class="facts">${cl.countries.length?`<p><span class="k">Country</span><span class="v">${esc(cl.countries.join(', '))}</span></p>`:''}${cl.langs.length?`<p><span class="k">Language</span><span class="v">${esc(cl.langs.join(', '))}</span></p>`:''}</div>`:'';
   const r={...m.ratings};
   const paint=()=>{
     const watched=saved&&isW(saved);
     open(`<div class="top">${m.poster?`<img class="zm" src="${m.poster}" data-full="${m.poster.replace('/w342/','/w780/')}" alt="">`:''}<div>
       <h2>${esc(m.title)}</h2><p class="meta">${m.year} · ${info} · ${esc(m.genres)}</p>
+      ${factsH}
       <div class="badges">${m.imdb_rating?`<span class="badge">IMDb <span class="score">${m.imdb_rating}</span></span>`:''}
       ${m.tmdb_rating?`<span class="badge">TMDB <span class="score">${m.tmdb_rating}</span></span>`:''}
       ${m.director?`<span class="badge">${tv?'Created by':'Dir.'} ${esc(m.director)}</span>`:''}
@@ -41,7 +57,7 @@ async function openMovie(id){
       <details class="kwd mkw" id="maw"><summary>Awards</summary><div class="v">${awH}</div></details>${kwH}</div></div>
     ${shots.length?`<div class="strip wide">${shots.map(f=>`<img class="zm" loading="lazy" src="${IMG}w780${f}" data-full="${IMG}w1280${f}" alt="">`).join('')}</div>`:''}<h3>Cast</h3><div class="cast">${m.cast.map(a=>`<button data-a="${a.id}">${a.photo?`<img src="${a.photo}" alt="">`:'<div class="ph"></div>'}<span class="nm">${esc(a.name)}</span></button>`).join('')}</div>
     ${canUse()?`<div class="rate"><h3 style="margin-top:0">${watched?'Your ratings':'Rate it to mark it as watched'}</h3>
-    ${CATS.map(([k,l])=>`<div class="row"><span>${l}</span><span class="stars">${[1,2,3,4,5].map(n=>`<button data-k="${k}" data-n="${n}" aria-label="${n} stars" class="${(r[k]||0)>=n?'f':''}">★</button>`).join('')}</span></div>`).join('')}
+    ${CATS.map(([k,l])=>`<div class="row"><span>${l}</span><span class="stars">${[1,2,3,4,5].map(n=>`<button data-k="${k}" data-n="${n}" aria-label="${n} stars" class="${(r[k]||0)>=n?'f':''}">${RSTAR}</button>`).join('')}</span></div>`).join('')}
     <div class="acts"><button class="btn" id="add">${watched?'Update ratings':'Rate'}</button>${!saved?'<button class="btn ghost" id="wl">+ To Watch</button>':''}${saved?`<button class="btn danger ic" id="rm" aria-label="${watched?'Remove':'Remove from To Watch'}" title="${watched?'Remove':'Remove from To Watch'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg></button>`:''}</div></div>`:ratePrompt()}`);
     $('#sheet').querySelectorAll('.stars button').forEach(b=>b.onclick=()=>{r[b.dataset.k]=+b.dataset.n;paint()});
     $('#sheet').querySelectorAll('.cast button').forEach(b=>b.onclick=()=>openActor(+b.dataset.a));

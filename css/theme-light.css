@@ -1,0 +1,58 @@
+/* Light theme. Loaded last. Only active when <html data-theme="light"> is set (see js/theme.js).
+   The violet accent (--hot / --glow) is deliberately NOT redefined here. */
+:root[data-theme="light"]{color-scheme:light;--bg:#f6f5f9;--card:#fff;--line:#dcd9e4;--ink:#17151c;--mute:#6a6674;--red:#d6334f;--off:#cfccd8}
+
+/* header */
+[data-theme="light"] header{background:rgba(250,249,252,.72);border-bottom-color:rgba(0,0,0,.08)}
+[data-theme="light"] header input,[data-theme="light"] .hu{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.12)}
+[data-theme="light"] .filters{background:rgba(0,0,0,.02)}
+[data-theme="light"] .wl:hover{background:rgba(0,0,0,.05)}
+
+/* theme toggle button (sits in the header, outside #hacct so nav() never wipes it) */
+#themeBtn{flex:none;display:inline-grid;place-items:center;width:38px;height:38px;padding:0;border-radius:8px;background:none;border:1px solid var(--line);color:var(--mute)}
+#themeBtn:hover{color:var(--hot);border-color:var(--hot)}
+#themeBtn svg{width:20px;height:20px}
+#themeBtn .sun{display:none}
+[data-theme="light"] #themeBtn .sun{display:block}
+[data-theme="light"] #themeBtn .moon{display:none}
+@media(min-width:1024px){header nav{order:3}#themeBtn{order:4}#hacct{order:5}}
+
+/* glow: soften on light backgrounds */
+[data-theme="light"] .score,[data-theme="light"] .sr,[data-theme="light"] .stat b,[data-theme="light"] .lb b{text-shadow:none}
+[data-theme="light"] .dots button.on{box-shadow:0 0 8px rgba(176,54,173,.35)}
+[data-theme="light"] .hero{box-shadow:0 6px 24px rgba(176,54,173,.14)}
+
+/* hero slideshow: the photo + dark gradient stay, so its text stays light */
+[data-theme="light"] .slide .txt{color:#efefef}
+[data-theme="light"] .slide .meta,[data-theme="light"] .slide .ov{color:#d2d0d8}
+[data-theme="light"] .arrow{color:#fff;border-color:rgba(255,255,255,.25)}
+[data-theme="light"] .dots button{background:rgba(255,255,255,.4)}
+[data-theme="light"] .dots button.on{background:var(--hot)}
+
+/* pop-ups: frosted white glass */
+[data-theme="light"] #modal{background:rgba(30,20,40,.38)}
+[data-theme="light"] #authm{background:rgba(30,20,40,.5)}
+[data-theme="light"] .sheet,[data-theme="light"] .amc{background:rgba(255,255,255,.78);border-color:rgba(0,0,0,.08);box-shadow:0 20px 60px rgba(40,20,60,.25)}
+[data-theme="light"] .sheet .rate,[data-theme="light"] .sheet .wbody,[data-theme="light"] .sheet .kwd,[data-theme="light"] .sheet .msg{background:rgba(0,0,0,.04)}
+[data-theme="light"] .sheet .x,[data-theme="light"] .amc .x{background:rgba(0,0,0,.07)}
+[data-theme="light"] .sheet input,[data-theme="light"] .amc input{background:rgba(255,255,255,.85);border-color:rgba(0,0,0,.14)}
+[data-theme="light"] .slide .txt{text-shadow:0 1px 8px rgba(0,0,0,.7)}
+
+/* trailer button: hollow white outline would vanish on a light sheet */
+[data-theme="light"] .trl{color:var(--ink);border-color:var(--ink)}
+[data-theme="light"] .trl:not(.off):hover{background:rgba(0,0,0,.07)}
+
+/* quiz + status colours: slightly deeper green for contrast on white */
+[data-theme="light"] .qo.ok{border-color:#23a86f}
+[data-theme="light"] .msg.ok{border-left-color:#23a86f}
+
+/* rating stars: an empty star is an outline (same style as the star on the Watch Now links) */
+[data-theme="light"] .stars button:not(.f) svg{fill:none;stroke:#8a8696;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+[data-theme="light"] .stars button:not(.f):hover svg{stroke:var(--hot)}
+[data-theme="light"] .stars button.f svg{filter:none}
+
+/* slideshow badges (IMDb / TMDB / genres): the slide text is light, but the badge pill is white, so give it dark text */
+[data-theme="light"] .slide .badge{color:var(--ink)}
+
+/* no text shadow on the slideshow badges (IMDb / TMDB / genres), including the scores inside them */
+[data-theme="light"] .slide .badge,[data-theme="light"] .slide .badge .score{text-shadow:none}

@@ -46,3 +46,6 @@ header h1 .brand{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #hacct{order:4}
 }
 @media(min-width:1024px) and (max-width:1200px){.hb .lt{display:none}header.in .hb{padding:8px 10px}.hu .hn{max-width:110px}}
+/* little number on the account chip: library access requests waiting for you */
+.hu{position:relative}
+.hu .dot{top:-5px;right:-4px}

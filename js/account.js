@@ -16,7 +16,8 @@ function accountView(){
         <label>New PIN<input id="cp-new" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" placeholder="••••"></label>
         <label>Repeat new PIN<input id="cp-new2" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="new-password" placeholder="••••"></label>
         <button class="btn">Save PIN</button><p class="meta" id="cp-msg"></p></form></details>
-     </div></div>`;
+     </div></div><div id="accs"></div>`;
+    accessPanel();
     const say=(id,t)=>{const m=$(id);if(m){m.textContent=t;m.style.color='var(--red)'}};
     $('#cu-form').onsubmit=async e=>{
       e.preventDefault();
